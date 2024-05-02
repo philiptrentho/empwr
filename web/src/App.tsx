@@ -1,6 +1,6 @@
 import FrameContainer from './components/FrameContainer/FrameContainer';
 import { User } from './types/interfaces/types';
-
+import BlueContainer from './components/BlueComponent/BlueContainer';
 function App() {
   const usersArray: User[] = [
     {
@@ -47,8 +47,11 @@ function App() {
           <FrameContainer user={user} key={user.id} />
         ))}
       </div>
+      <div className="flex flex-col space-x-4 items-center gap-16">
+        <BlueContainer user={usersArray[2]} key = {usersArray[2].id}/>
+      </div>
     </div>
   );
-}
+} 
 
 export default App;
