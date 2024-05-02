@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "test": "vitest --ui",
+    "test": "vitest --ui run",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "lint:format": "prettier  --log-level warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "npm run lint:format && npm run lint:fix ",

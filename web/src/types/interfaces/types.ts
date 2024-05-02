@@ -9,3 +9,7 @@ export interface User {
 export interface FrameContainerProps {
   user: User;
 }
+
+export interface dummyType {
+  name: string;
+}
