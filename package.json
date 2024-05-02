@@ -11,6 +11,9 @@
         "test": "npm run test --workspaces"
     },
     "dependencies": {
-        "rollup": "^4.17.2"
+        "@types/markdown-it": "^14.1.1",
+        "linkify-it": "^5.0.0",
+        "rollup": "^4.17.2",
+        "typescript": "^5.4.5"
     }
 }
