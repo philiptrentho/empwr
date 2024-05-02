@@ -27,6 +27,14 @@ function App() {
       email: 'SamuelRidet2025@u.northwestern.edu',
       teamColor: 'blue',
     },
+    {
+      id: 4,
+      name: 'Miya Liu',
+      avatarURL:
+        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+      email: 'MiyaLiu2026@u.northwestern.edu',
+      teamColor: 'green',
+    },
   ];
 
   return (
