@@ -32,11 +32,11 @@ jobs:
                 git config --global user.name 'Ethan Pineda'
                 git config --global user.email 'EthanPineda2025@u.northwestern.edu'
                 git add -u
-                if ! git diff --cached --exit-code; then
-                    git commit -m "Running Prettier and ESLint"
-                    git push
+                if git diff --cached --quiet; then
+                  echo "No changes to commit."
                 else
-                    echo "No changes to commit"
+                  git commit -m "Running Prettier and ESLint"
+                  git push
                 fi
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
