@@ -3,8 +3,9 @@ export interface User {
   name: string;
   avatarURL: string;
   email: string;
+  teamColor: string;
 }
 
-export interface TeamContainerProps {
-  teamColor: string;
+export interface FrameContainerProps {
+  user: User;
 }
