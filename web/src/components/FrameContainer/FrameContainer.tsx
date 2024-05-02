@@ -1,5 +1,6 @@
-import { FrameContainerProps } from '../../types/interfaces/types';
 import React, { useState } from 'react';
+
+import { FrameContainerProps } from '../../types/interfaces/types';
 
 export default function FrameContainer({ user }: FrameContainerProps) {
   let borderColorClass = '';
@@ -55,7 +56,6 @@ export default function FrameContainer({ user }: FrameContainerProps) {
               if (e.key === 'Enter') copyEmailToClipboard();
             }}
             tabIndex={0}
-            role="button"
             className={`flex items-center justify-center h-6 w-6 rounded ${
               copied ? 'bg-green-400' : 'bg-gray-200'
             } transition-all duration-300`}
