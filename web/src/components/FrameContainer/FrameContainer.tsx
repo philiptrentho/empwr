@@ -49,11 +49,13 @@ export default function FrameContainer({ user }: FrameContainerProps) {
         </div>
         <div className="flex gap-2 items-center">
           <p>{user.email}</p>
-          <div
+          <button
             onClick={copyEmailToClipboard}
             onKeyDown={(e) => {
               if (e.key === 'Enter') copyEmailToClipboard();
             }}
+            tabIndex={0}
+            role="button"
             className={`flex items-center justify-center h-6 w-6 rounded ${
               copied ? 'bg-green-400' : 'bg-gray-200'
             } transition-all duration-300`}
@@ -61,7 +63,7 @@ export default function FrameContainer({ user }: FrameContainerProps) {
             <span className="material-symbols-rounded text-xs text-gray-600 cursor-">
               {copied ? 'done' : 'content_copy'}
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </div>
