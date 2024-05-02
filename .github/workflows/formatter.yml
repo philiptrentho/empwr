@@ -21,10 +21,15 @@ jobs:
               with:
                 node-version: '20'
             
-            - name: Install dependencies
+            - name: Install dependencies main
+              run: npm install
+
+            - name: Install dependencies web
+              working-directory: ./web
               run: npm install
 
             - name: Run formatter
+              working-directory: ./web
               run: npm run lint
 
             - name: Commit and push changes
