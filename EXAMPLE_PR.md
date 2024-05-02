@@ -1,0 +1,33 @@
+## Ticket: [XXXX]
+
+### Title: TITLE_GOES HERE
+
+ 
+
+### Description:
+
+DESCRIPTION GOES HERE
+
+### Acceptance Criteria:
+
+ACCEPTANCE CRITERIA GOES HERE
+ACCEPTANCE CRITERIA IS A LIST OF THINGS THAT NEED TO BE DONE FOR THE TASK TO BE CONSIDERED COMPLETE
+
+[] - Task 1
+[] - Task 2
+[] - Task 3
+
+### Notes:
+
+ANY ADDITIONAL NOTES GO HERE
+
+### Attachments:
+
+ANY ATTACHMENTS GO HERE
+
+### Dependencies:
+
+ANY DEPENDENCIES THAT YOU INSTALLED NEED
+
+---
+
