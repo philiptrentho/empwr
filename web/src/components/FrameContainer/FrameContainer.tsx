@@ -51,6 +51,9 @@ export default function FrameContainer({ user }: FrameContainerProps) {
           <p>{user.email}</p>
           <div
             onClick={copyEmailToClipboard}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') copyEmailToClipboard();
+            }}
             className={`flex items-center justify-center h-6 w-6 rounded ${
               copied ? 'bg-green-400' : 'bg-gray-200'
             } transition-all duration-300`}
