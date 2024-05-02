@@ -1,0 +1,42 @@
+name: Format Code
+
+on:
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    format:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+    
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                node-version: '20'
+            
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run formatter
+              run: npm run lint
+
+            - name: Commit and push changes
+              run: |
+                git config --global user.name 'Ethan Pineda'
+                git config --global user.email 'EthanPineda2025@u.northwestern.edu'
+                git add -u
+                if ! git diff --cached --exit-code; then
+                    git commit -m "Running Prettier and ESLint"
+                    git push
+                else
+                    echo "No changes to commit"
+                fi
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
