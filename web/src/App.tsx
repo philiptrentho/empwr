@@ -23,7 +23,7 @@ function App() {
       id: 3,
       name: 'Long John Long',
       avatarURL:
-        'https://assets-global.website-files.com/5d7e8885cad5174a2fcb98d7/64933f98a477f02e36a282d1_5eddd950e5cf1ec1fa5c2d83_virtual-influencer-john-pork.jpeg',
+        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
       email: 'LongJohnLong2026@u.northwestern.edu',
       teamColor: 'blue',
     },
