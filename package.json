@@ -2,12 +2,15 @@
     "name": "ts-fb-monorepo",
     "version": "0.0.1",
     "workspaces": [
-      "web",
-      "shared",
-      "functions"
+        "web",
+        "shared",
+        "functions"
     ],
     "scripts": {
-      "build": "npm run build --workspaces",
-      "test": "npm run test --workspaces"
+        "build": "npm run build --workspaces",
+        "test": "npm run test --workspaces"
+    },
+    "dependencies": {
+        "rollup": "^4.17.2"
     }
-  }
+}
