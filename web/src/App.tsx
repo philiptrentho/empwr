@@ -1,6 +1,6 @@
 import FrameContainer from './components/FrameContainer/FrameContainer';
 import { User } from './types/interfaces/types';
-
+import BlueContainer from './components/BlueComponent/BlueContainer';
 function App() {
   const usersArray: User[] = [
     {
@@ -21,10 +21,10 @@ function App() {
     },
     {
       id: 3,
-      name: 'Sam Ridet',
+      name: 'Long John Long',
       avatarURL:
         'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'SamuelRidet2025@u.northwestern.edu',
+      email: 'LongJohnLong2026@u.northwestern.edu',
       teamColor: 'blue',
     },
     {
@@ -55,8 +55,11 @@ function App() {
           <FrameContainer user={user} key={user.id} />
         ))}
       </div>
+      <div className="flex flex-col space-x-4 items-center gap-16">
+        <BlueContainer user={usersArray[2]} key = {usersArray[2].id}/>
+      </div>
     </div>
   );
-}
+} 
 
 export default App;
