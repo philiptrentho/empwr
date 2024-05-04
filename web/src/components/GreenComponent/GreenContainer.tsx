@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { FrameContainerProps } from '@/types/interfaces/types';
 
-export default function RedComponent({ user }: FrameContainerProps) {
-  const borderColorClass = 'border-rose-500';
-  const backgroundHoverColorClass = 'hover:bg-rose-50';
+export default function GreenContainer({ user }: FrameContainerProps) {
+  const borderColorClass = 'border-green-500';
+  const backgroundHoverColorClass = 'hover:bg-green-50';
 
   const [copied, setCopied] = useState(false);
 

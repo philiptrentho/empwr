@@ -1,6 +1,7 @@
-import FrameContainer from './components/FrameContainer/FrameContainer';
-import { User } from './types/interfaces/types';
 import BlueContainer from './components/BlueComponent/BlueContainer';
+import GreenContainer from './components/GreenComponent/GreenContainer';
+import RedComponent from './components/RedComponent/RedComponent';
+import { User } from './types/interfaces/types';
 function App() {
   const usersArray: User[] = [
     {
@@ -47,19 +48,19 @@ function App() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center p-16">
-        CS 394 - Tribe B - Client Project
-      </h1>
       <div className="flex flex-col space-x-4 items-center gap-16">
-        {usersArray.map((user) => (
-          <FrameContainer user={user} key={user.id} />
-        ))}
+        <BlueContainer user={usersArray[2]} key={usersArray[2].id} />
       </div>
       <div className="flex flex-col space-x-4 items-center gap-16">
-        <BlueContainer user={usersArray[2]} key = {usersArray[2].id}/>
+        <RedComponent user={usersArray[1]} key={usersArray[1].id} />
+      </div>
+      <div className="flex flex-col space-x-4 items-center gap-16">
+        <GreenContainer user={usersArray[0]} key={usersArray[0].id} />
+        <GreenContainer user={usersArray[3]} key={usersArray[3].id} />
+        <GreenContainer user={usersArray[4]} key={usersArray[4].id} />
       </div>
     </div>
   );
-} 
+}
 
 export default App;
