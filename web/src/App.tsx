@@ -1,64 +1,32 @@
-import BlueContainer from './components/BlueComponent/BlueContainer';
-import GreenContainer from './components/GreenComponent/GreenContainer';
-import RedComponent from './components/RedComponent/RedComponent';
-import { User } from './types/interfaces/types';
-function App() {
-  const usersArray: User[] = [
-    {
-      id: 1,
-      name: 'Ethan Pineda',
-      avatarURL:
-        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'EthanPineda2025@u.northwestern.edu',
-      teamColor: 'green',
-    },
-    {
-      id: 2,
-      name: 'Isa Gonzalez',
-      avatarURL:
-        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'IsaGonzalez2025@u.northwestern.edu',
-      teamColor: 'red',
-    },
-    {
-      id: 3,
-      name: 'Long John Long',
-      avatarURL:
-        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'LongJohnLong2026@u.northwestern.edu',
-      teamColor: 'blue',
-    },
-    {
-      id: 4,
-      name: 'Miya Liu',
-      avatarURL:
-        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'MiyaLiu2026@u.northwestern.edu',
-      teamColor: 'green',
-    },
-    {
-      id: 5,
-      name: 'Chelsey Tao',
-      avatarURL:
-        'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      email: 'ChelseyTao2027@u.northwestern.edu',
-      teamColor: 'green',
-    },
-  ];
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import Sidebar from './components/Sidebar/Sidebar';
+import IndividualView from './pages/IndividualView';
+import OrganizationView from './pages/OrganizationView';
+import TeamView from './pages/TeamView';
+
+function App() {
+  return (
+    <Router>
+      <div className="flex h-screen">
+        <Sidebar />
+        <main className="flex-1 p-4">
+          <Routes>
+            <Route path="/" element={<Temp />} />
+            <Route path="/OrganizationView" element={<OrganizationView />} />
+            <Route path="/TeamView" element={<TeamView />} />
+            <Route path="/IndividualView" element={<IndividualView />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
+function Temp() {
   return (
     <div>
-      <div className="flex flex-col space-x-4 items-center gap-16">
-        <BlueContainer user={usersArray[2]} key={usersArray[2].id} />
-      </div>
-      <div className="flex flex-col space-x-4 items-center gap-16">
-        <RedComponent user={usersArray[1]} key={usersArray[1].id} />
-      </div>
-      <div className="flex flex-col space-x-4 items-center gap-16">
-        <GreenContainer user={usersArray[0]} key={usersArray[0].id} />
-        <GreenContainer user={usersArray[3]} key={usersArray[3].id} />
-        <GreenContainer user={usersArray[4]} key={usersArray[4].id} />
-      </div>
+      <h2>Select a page from the sidebar!</h2>
     </div>
   );
 }

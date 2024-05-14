@@ -5,11 +5,3 @@ export interface User {
   email: string;
   teamColor: string;
 }
-
-export interface FrameContainerProps {
-  user: User;
-}
-
-export interface dummyType {
-  name: string;
-}

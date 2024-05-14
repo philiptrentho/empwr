@@ -17,6 +17,24 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        heading: ['Albert Sans', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          50: '#F0EBFF',
+          100: '#D5CFFF',
+          200: '#BBA7FB',
+          300: '#7C52FF',
+          400: '#5D3AFF',
+          500: '#4820C5',
+          600: '#3A1A9E',
+          700: '#271463',
+          800: '#1D0F4D',
+          900: '#140A38',
+        },
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
