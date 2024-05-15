@@ -1,8 +1,8 @@
 // NOTE CLIENT DOES NOT USE FIREBASE, BUT THIS IS FOR TESTING/ GETTING SAMPLE USERS FROM FB FOR NOW
 import { initializeApp } from 'firebase/app';
-import { QueryDocumentSnapshot, DocumentSnapshot, collection, getDocs, doc, getDoc, getFirestore, DocumentData } from 'firebase/firestore';
+import { where,  QueryDocumentSnapshot, DocumentSnapshot, collection, getDocs, doc, getDoc, getFirestore, DocumentData } from 'firebase/firestore';
 import { firestore } from 'firebase-admin';
-import { Users, Action, User, UserId, dummyType, Meeting } from '../../types/interfaces/types';
+import { Team, Users, Action, User, UserId, dummyType, Meeting } from '../../types/interfaces/types';
 const firebaseConfig = {
     apiKey: 'AIzaSyBDKaHeRDyyZszMB89oV0BdXx1eOODIiHk',
     authDomain: 'tribe-b.firebaseapp.com',
@@ -44,6 +44,31 @@ export const fetchUser = async (userId: string) => {
         }
     } catch (error) {
         console.error('Error fetching user:', error);
+        throw error;
+    }
+};
+export const fetchAllTeams = async (): Promise<Team[]> => {
+    try {
+        const teamsRef = collection(db, 'teams');
+        const querySnapshot = await getDocs(teamsRef);
+
+        const teamsArray: Team[] = [];
+        querySnapshot.forEach((doc: DocumentSnapshot) => {
+            const data = doc.data();
+            if (data) { 
+                const team: Team = {
+                    follow: data.Follow,
+                    followers: data.Followers,
+                    LastUpdated: data.LastUpdated,
+                    name: data.Name,
+                    Permissions: data.Permissions
+                };
+            teamsArray.push(team);
+            }
+        });
+        return teamsArray;
+    } catch (error) {
+        console.error('Error fetching teams:', error);
         throw error;
     }
 };

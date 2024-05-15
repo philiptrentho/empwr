@@ -25,6 +25,13 @@ export interface Meeting {
   start: Date;
   title: string;
 }
+export interface Team {
+  follow: boolean;
+  followers: string[];
+  LastUpdated: number;
+  name: String;
+  Permissions: String;
+}
 export interface Action {
   actionItems: {
     action: string;
