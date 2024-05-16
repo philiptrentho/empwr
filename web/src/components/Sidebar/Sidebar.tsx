@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-
 export default function Sidebar() {
   return (
     <aside className="w-48 h-full bg-brand-700 text-white flex flex-col font-sans">
