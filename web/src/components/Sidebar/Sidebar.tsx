@@ -32,7 +32,7 @@ export default function Sidebar() {
               to="/IndividualView"
               className="block p-4 bg-white bg-opacity-0 hover:bg-opacity-5 py-3"
             >
-              Individual
+              TeamView1
             </Link>
           </li>
         </ul>
