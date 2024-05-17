@@ -1,10 +1,19 @@
-import { fetchAllTeams, fetchAllActions, fetchAllMeetings, fetchMeetings, fetchUser } from '../components/Firebase/firebase';
-import { Team } from '../types/interfaces/types';
-import React, { useEffect, useState } from 'react';
 import './TeamView.css';
+
+import React, { useEffect, useState } from 'react';
+
 import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
 
+
+import {
+  fetchAllActions,
+  fetchAllMeetings,
+  fetchAllTeams,
+  fetchMeetings,
+  fetchUser,
+} from '../components/Firebase/firebase';
+import { Team } from '../types/interfaces/types';
 
 export default function TeamView() {
 
@@ -22,13 +31,22 @@ export default function TeamView() {
 
     fetchData();
   }, []);
+  
   const filteredTeams = teamsData.filter(team =>
     team.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+        
   return (
-    <div className="flex flex-row justify-between h-screen">
-      <div className="w-3/4">
+    <div>
+      <div className="p-5 space-y-4">
+        <div>
+          <h1 className="text-lg font-semibold">Your Results</h1>
+          <h2 className="text-xl font-bold">Quantitatively Managed</h2>
+          <p className="text-gray-600">
+            Teams rely on metrics and advanced tools for decision-making, automating
+            testing, and fostering continuous delivery practices...
+          </p>
+        </div>
         <h1 className="font-sans font-bold text-3xl mb-20">Teams</h1>
         <div className="font-sans text-2xl flex flex-row space-x-4">
           <div>Following </div>
@@ -62,7 +80,12 @@ export default function TeamView() {
         <div className="h-full flex-grow">
           <div className="h-full">
             <TeamUpdate teams={filteredTeams}/>
-
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border border-gray-300 rounded px-3 py-2 mb-4"
+        />
+        <div className="flex-grow">
+          <div>
+            <TeamList teams={filteredTeams} />
           </div>
         </div>
       </div>
