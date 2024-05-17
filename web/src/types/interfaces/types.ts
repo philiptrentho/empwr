@@ -7,6 +7,13 @@ export interface User {
   teamColor: string;
 }
 
+export interface Teammate {
+  id: number;
+  name: string;
+  role: string;
+  avatarURL: string;
+  contributions: string[]; // this is going to be dummy data for now until we figure out what the contributions are
+  
 export interface FrameContainerProps {
   user: User;
 }
