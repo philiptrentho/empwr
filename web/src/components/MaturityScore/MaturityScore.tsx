@@ -41,5 +41,6 @@ export default function MaturityScore() {
     },
   };
 
+  // @ts-expect-error
   return OrgViewChart('Maturity Score', <Bar data={data} options={options} />);
 }

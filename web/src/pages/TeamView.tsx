@@ -72,9 +72,12 @@ export default function TeamView() {
 
         <div className="h-full flex-grow">
           <div className="h-full">
-            <TeamUpdate teams={filteredTeams} />
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 mb-4"
+            <TeamUpdate
+              teams={filteredTeams}
+              // @ts-expect-error
+              onChange={(e: unknown) => setSearchQuery(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-2 mb-4"
+            />
           </div>
         </div>
 

@@ -67,6 +67,7 @@ export default function MeetingTimeChart() {
       const newChartInstance = new Chart(canvasRef.current, {
         type: 'bar',
         data,
+        // @ts-expect-error
         options,
       });
       chartRef.current = newChartInstance;
