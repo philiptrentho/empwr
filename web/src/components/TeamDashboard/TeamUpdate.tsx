@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Team } from '../../types/interfaces/types';
 import BarChart from '@/components/TeamDashboard/BarChart';
