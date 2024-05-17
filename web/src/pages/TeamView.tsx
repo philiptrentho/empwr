@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
 
-
 import {
   fetchAllActions,
   fetchAllMeetings,
@@ -16,7 +15,6 @@ import {
 import { Team } from '../types/interfaces/types';
 
 export default function TeamView() {
-
   const [teamsData, setTeamsData] = useState<Team[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   useEffect(() => {
@@ -31,11 +29,11 @@ export default function TeamView() {
 
     fetchData();
   }, []);
-  
-  const filteredTeams = teamsData.filter(team =>
-    team.name.toLowerCase().includes(searchQuery.toLowerCase())
+
+  const filteredTeams = teamsData.filter((team) =>
+    team.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-        
+
   return (
     <div>
       <div className="p-5 space-y-4">
@@ -58,31 +56,28 @@ export default function TeamView() {
           type="text"
           placeholder="Search meetings..."
           value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="border border-gray-300 rounded px-3 py-2 mb-4 w-2/5"
         />
-        <div className="text-md font-sans">
-          {teamsData.length} Teams
-        </div>
+        <div className="text-md font-sans">{teamsData.length} Teams</div>
         <br></br>
         <div className="flex-grow">
           <div>
             <TeamList teams={filteredTeams} />
-
           </div>
         </div>
       </div>
       <div className="h-screen w-1/5">
-        <div className="font-bold text-2xl">
-          Team Updates
-        </div>
-       
+        <div className="font-bold text-2xl">Team Updates</div>
+
         <div className="h-full flex-grow">
           <div className="h-full">
-            <TeamUpdate teams={filteredTeams}/>
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border border-gray-300 rounded px-3 py-2 mb-4"
-        />
+            <TeamUpdate teams={filteredTeams} />
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 mb-4"
+          </div>
+        </div>
+
         <div className="flex-grow">
           <div>
             <TeamList teams={filteredTeams} />

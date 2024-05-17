@@ -1,4 +1,13 @@
-import { QueryDocumentSnapshot, DocumentSnapshot, collection, getDocs, doc, getDoc, getFirestore, DocumentData } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  DocumentData,
+  DocumentSnapshot,
+  getDoc,
+  getDocs,
+  getFirestore,
+  QueryDocumentSnapshot,
+} from 'firebase/firestore';
 export interface User {
   id: number;
   name: string;
@@ -13,7 +22,8 @@ export interface Teammate {
   role: string;
   avatarURL: string;
   contributions: string[]; // this is going to be dummy data for now until we figure out what the contributions are
-  
+}
+
 export interface FrameContainerProps {
   user: User;
 }
@@ -36,15 +46,15 @@ export interface Team {
   follow: boolean;
   followers: string[];
   LastUpdated: number;
-  name: String;
-  Permissions: String;
+  name: string;
+  Permissions: string;
 }
 export interface Action {
   actionItems: {
     action: string;
-    name: string; 
+    name: string;
   }[];
-  meetingId: string; 
+  meetingId: string;
 }
 export interface NavigationBarProps {
   navNumber: number;
