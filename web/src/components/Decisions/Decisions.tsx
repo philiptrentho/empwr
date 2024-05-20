@@ -61,6 +61,7 @@ const Decisions: React.FC = () => {
       const newChartInstance = new Chart(canvasRef.current, {
         type: 'line',
         data,
+        // @ts-ignore
         options,
       });
       chartRef.current = newChartInstance;

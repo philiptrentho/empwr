@@ -43,6 +43,7 @@ export default function MaturityScore() {
   return (
     <OrgViewChart
       heading="Maturity Score"
+      // @ts-expect-error
       chart={<Bar data={data} options={options} />}
     />
   );
