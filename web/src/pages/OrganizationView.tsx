@@ -1,3 +1,4 @@
+import Decisions from '@/components/Decisions/Decisions';
 import MaturityScore from '@/components/MaturityScore/MaturityScore';
 import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
 import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
@@ -19,6 +20,7 @@ export default function OrganizationView() {
         <div className="flex w-full gap-8 flex-wrap">
           <MeetingTimeChart />
           <MaturityScore />
+          <Decisions />
         </div>
 
         <h1 className="font-medium">Teams</h1>
