@@ -16,6 +16,19 @@ export interface User {
   teamColor: string;
 }
 
+export interface OrgTeamStatsProps {
+  teamName: string;
+  meetingTime: number;
+  meetingPercentage: number;
+  decisionsLinked: number;
+  decisionsNotLinked: number;
+  maturity: number;
+}
+
+export interface OrgViewChartProps {
+  heading: string;
+  chart: any;
+}
 export interface Teammate {
   id: number;
   name: string;

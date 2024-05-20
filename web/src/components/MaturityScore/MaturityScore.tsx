@@ -1,6 +1,5 @@
 import 'chart.js/auto';
 
-import React from 'react';
 import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
@@ -12,17 +11,17 @@ export default function MaturityScore() {
       {
         label: 'Negative',
         data: [1, 0, 0],
-        backgroundColor: '#D9534F',
+        backgroundColor: '#D36875',
       },
       {
         label: 'Neutral',
         data: [0, 2, 0],
-        backgroundColor: '#F0AD4E',
+        backgroundColor: '#F9D371',
       },
       {
         label: 'Positive',
         data: [0, 0, 4],
-        backgroundColor: '#5CB85C',
+        backgroundColor: '#10b981',
       },
     ],
   };
@@ -41,6 +40,10 @@ export default function MaturityScore() {
     },
   };
 
-  // @ts-expect-error
-  return OrgViewChart('Maturity Score', <Bar data={data} options={options} />);
+  return (
+    <OrgViewChart
+      heading="Maturity Score"
+      chart={<Bar data={data} options={options} />}
+    />
+  );
 }

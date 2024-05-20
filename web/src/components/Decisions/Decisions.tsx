@@ -1,24 +1,27 @@
+import { scales } from 'chart.js';
+import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
-import { useEffect, useRef } from 'react';
-
-import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
 const data = {
   labels: ['Sep', 'Oct', 'Nov'],
   datasets: [
     {
-      label: 'Objectives',
-      data: [40, 60, 50],
-      backgroundColor: '#4D388E',
+      label: 'Linked to objectives',
+      data: [2, 6, 10],
       borderColor: '#4D388E',
-      borderWidth: 1,
+      backgroundColor: 'rgba(75, 0, 130, 0.2)',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.1,
     },
     {
-      label: 'Other',
-      data: [60, 40, 50],
-      backgroundColor: '#38bdf8',
-      borderColor: '#38bdf8',
-      borderWidth: 1,
+      label: 'Not linked',
+      data: [1, 3, 7],
+      borderColor: '#39B4E6',
+      backgroundColor: 'rgba(0, 162, 255, 0.2)',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.1,
     },
   ],
 };
@@ -27,17 +30,11 @@ const options = {
   responsive: true,
   scales: {
     x: {
-      stacked: true,
+      beginAtZero: true,
     },
     y: {
-      stacked: true,
       beginAtZero: true,
-      max: 100,
-      ticks: {
-        callback: function (value: number) {
-          return value + '%';
-        },
-      },
+      max: 12,
     },
   },
   plugins: {
@@ -54,16 +51,15 @@ const options = {
   },
 };
 
-export default function MeetingTimeChart() {
-  const chartRef = useRef<Chart<'bar', number[], string> | null>(null);
+const Decisions: React.FC = () => {
+  const chartRef = useRef<Chart<'line', number[], string> | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (canvasRef.current) {
       const newChartInstance = new Chart(canvasRef.current, {
-        type: 'bar',
+        type: 'line',
         data,
-        // @ts-expect-error
         options,
       });
       chartRef.current = newChartInstance;
@@ -76,6 +72,11 @@ export default function MeetingTimeChart() {
   }, []);
 
   return (
-    <OrgViewChart heading="Meeting time" chart={<canvas ref={canvasRef}></canvas>} />
+    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
+      <h1 className="text-lg font-semibold mb-4">Decisions</h1>
+      <canvas ref={canvasRef}></canvas>
+    </div>
   );
-}
+};
+
+export default Decisions;
