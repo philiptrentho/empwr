@@ -75,7 +75,5 @@ export default function MeetingTimeChart() {
     };
   }, []);
 
-  return (
-    <OrgViewChart heading="Meeting time" chart={<canvas ref={canvasRef}></canvas>} />
-  );
+  return <OrgViewChart heading="Meeting time" chart={<canvas ref={canvasRef} />} />;
 }
