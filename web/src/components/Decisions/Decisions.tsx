@@ -1,6 +1,7 @@
-import { scales } from 'chart.js';
-import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
+import { useEffect, useRef } from 'react';
+
+import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
 const data = {
   labels: ['Sep', 'Oct', 'Nov'],
@@ -71,12 +72,7 @@ const Decisions: React.FC = () => {
     };
   }, []);
 
-  return (
-    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-lg font-semibold mb-4">Decisions</h1>
-      <canvas ref={canvasRef}></canvas>
-    </div>
-  );
+  return <OrgViewChart heading="Decisions" chart={<canvas ref={canvasRef} />} />;
 };
 
 export default Decisions;
