@@ -1,9 +1,5 @@
-import { scales } from 'chart.js';
 import { Chart } from 'chart.js/auto';
-import { callback } from 'chart.js/dist/helpers/helpers.core';
-import { Weight } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
@@ -20,8 +16,8 @@ const data = {
     {
       label: 'Other',
       data: [60, 40, 50],
-      backgroundColor: '#39B4E6',
-      borderColor: '#39B4E6',
+      backgroundColor: '#38bdf8',
+      borderColor: '#38bdf8',
       borderWidth: 1,
     },
   ],
@@ -78,5 +74,7 @@ export default function MeetingTimeChart() {
     };
   }, []);
 
-  return OrgViewChart('Meeting time', <canvas ref={canvasRef}></canvas>);
+  return (
+    <OrgViewChart heading="Meeting time" chart={<canvas ref={canvasRef}></canvas>} />
+  );
 }
