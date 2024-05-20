@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-
 export default function Sidebar() {
   return (
     <aside className="w-48 h-full bg-brand-700 text-white flex flex-col font-sans">
@@ -33,7 +32,7 @@ export default function Sidebar() {
               to="/IndividualView"
               className="block p-4 bg-white bg-opacity-0 hover:bg-opacity-5 py-3"
             >
-              Individual
+              TeamView1
             </Link>
           </li>
         </ul>

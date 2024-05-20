@@ -1,3 +1,13 @@
+import {
+  collection,
+  doc,
+  DocumentData,
+  DocumentSnapshot,
+  getDoc,
+  getDocs,
+  getFirestore,
+  QueryDocumentSnapshot,
+} from 'firebase/firestore';
 export interface User {
   id: number;
   name: string;
@@ -18,4 +28,56 @@ export interface OrgTeamStatsProps {
 export interface OrgViewChartProps {
   heading: string;
   chart: any;
+}
+export interface Teammate {
+  id: number;
+  name: string;
+  role: string;
+  avatarURL: string;
+  contributions: string[]; // this is going to be dummy data for now until we figure out what the contributions are
+}
+
+export interface FrameContainerProps {
+  user: User;
+}
+
+export interface dummyType {
+  name: string;
+}
+export interface UserId {
+  userId: string;
+}
+export interface Meeting {
+  attendee: string[];
+  end: Date;
+  eventId: string;
+  ownerId: number;
+  start: Date;
+  title: string;
+}
+export interface Team {
+  follow: boolean;
+  followers: string[];
+  LastUpdated: number;
+  name: string;
+  Permissions: string;
+}
+export interface Action {
+  actionItems: {
+    action: string;
+    name: string;
+  }[];
+  meetingId: string;
+}
+export interface NavigationBarProps {
+  navNumber: number;
+  setNavNumber: (value: number) => void;
+}
+export interface Users {
+  name: string;
+  id: string;
+}
+
+export interface LocationState {
+  userId: string;
 }
