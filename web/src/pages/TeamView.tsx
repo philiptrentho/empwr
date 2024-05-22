@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
-import { LuArrowRightToLine } from "react-icons/lu";
-import { LuArrowLeftFromLine } from "react-icons/lu";
+import { LucideArrowRightToLine, LucideArrowLeftFromLine } from 'lucide-react';
 import {
   fetchAllTeams,
 } from '../components/Firebase/firebase';
@@ -144,7 +143,7 @@ export default function TeamView() {
         className="collapse-toggle p-2 bg-white-500 rounded h-2/6 font-sans text-6x1 text-blue-900"
         onClick={() => setCollapsed(!collapsed)}
       >
-        {collapsed ? <LuArrowLeftFromLine /> : <LuArrowRightToLine />}
+        {collapsed ? <LucideArrowLeftFromLine /> : <LucideArrowRightToLine />}
       </button>
       {!collapsed && (
         <div className="p-5">

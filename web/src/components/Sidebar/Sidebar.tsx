@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
 export default function Sidebar() {
+  const sidebarLinks: string[] = [
+    'Organization',
+    'Team',
+    'DetailedTeamView',
+    'IndividualView',
+  ];
+
   return (
     <aside className="w-48 h-full bg-brand-700 text-white flex flex-col font-sans">
       <div className="p-4 border-b-2 border-white border-opacity-5">
@@ -11,30 +18,11 @@ export default function Sidebar() {
       </div>
       <nav className="flex-1">
         <ul className="font-semibold">
-          <li className="mb-2">
-            <Link
-              to="/OrganizationView"
-              className="block p-4 bg-white bg-opacity-0 hover:bg-opacity-5 py-3"
-            >
-              Organization
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              to="/TeamView"
-              className="block p-4 bg-white bg-opacity-0 hover:bg-opacity-5 py-3"
-            >
-              Team
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              to="/IndividualView"
-              className="block p-4 bg-white bg-opacity-0 hover:bg-opacity-5 py-3"
-            >
-              TeamView1
-            </Link>
-          </li>
+          {sidebarLinks.map((link, index) => (
+            <li key={index} className="p-4 border-b border-white border-opacity-5">
+              <Link to={`/${link}`}>{link}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>
