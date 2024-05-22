@@ -101,3 +101,13 @@ export interface Users {
 export interface LocationState {
   userId: string;
 }
+
+export interface Task {
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: string;
+  status: string;
+  team: DocumentReference;
+  assignedTo: DocumentReference[];
+}

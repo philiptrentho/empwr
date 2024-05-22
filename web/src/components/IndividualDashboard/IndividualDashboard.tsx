@@ -1,5 +1,8 @@
+import { Task } from '@/types/interfaces/types';
 import TaskCard from '../TaskCard/TaskCard';
 import UpcomingMeetingCard from '../UpcomingMeetingsCard/UpcomingMeetingsCard';
+import { useEffect, useState } from 'react';
+import { fetchUserDetails, fetchUserTasks } from '../Firebase/individualData';
 interface Metric {
   title: string;
   description: string;
@@ -7,13 +10,6 @@ interface Metric {
   score: number; // Assuming score is between 0 to 10
 }
 
-interface Task {
-  taskTitle: string;
-  taskDescription: string;
-  taskDueDate: string;
-  taskPriority: string;
-  taskStatus: string;
-}
 
 interface Meeting {
   meetingTitle: string;
@@ -99,30 +95,6 @@ const upcomingMeetings: Meeting[] = [
   },
 ];
 
-const currentTasks: Task[] = [
-  {
-    taskTitle: 'Refactor Login Module',
-    taskDescription: 'Refactor the login module to use the new authentication service.',
-    taskDueDate: '2024-05-23',
-    taskPriority: 'High',
-    taskStatus: 'In Progress',
-  },
-  {
-    taskTitle: 'Update Documentation',
-    taskDescription: 'Update the project documentation with the latest changes.',
-    taskDueDate: '2024-05-24',
-    taskPriority: 'Medium',
-    taskStatus: 'Not Started',
-  },
-  {
-    taskTitle: 'Bug Fixes',
-    taskDescription: 'Fix the critical bugs reported by the QA team.',
-    taskDueDate: '2024-05-25',
-    taskPriority: 'High',
-    taskStatus: 'Not Started',
-  },
-];
-
 const getBarColor = (score: number) => {
   if (score >= 8) return 'bg-green-400';
   if (score >= 6) return 'bg-yellow-400';
@@ -130,6 +102,23 @@ const getBarColor = (score: number) => {
 };
 
 const IndividualDashboard: React.FC = () => {
+  const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
+  useEffect(() => {
+    fetchUserTasks('userID1')
+      .then((tasks) => {
+        console.log(tasks)
+        setCurrentTasks(tasks);
+      })
+      .catch((error) => {
+        console.error('Error fetching tasks:', error);
+      });
+  },[]);
+
+  // useEffect(() => {
+  //   let tasks = currentTasks.filter((task) => task.status !== 'Completed');
+  //   setCurrentTasks(tasks);
+  // }, [currentTasks]);
+
   return (
     <div className="p-6 bg-gray-100 text-gray-900 min-h-screen">
       <div className="flex flex-col items-start mb-8">
@@ -176,11 +165,11 @@ const IndividualDashboard: React.FC = () => {
               {currentTasks.map((task, index) => (
                 <TaskCard
                   key={index}
-                  taskTitle={task.taskTitle}
-                  taskDescription={task.taskDescription}
-                  taskDueDate={task.taskDueDate}
-                  taskPriority={task.taskPriority}
-                  taskStatus={task.taskStatus}
+                  taskTitle={task.title}
+                  taskDescription={task.description}
+                  taskDueDate={task.dueDate}
+                  taskPriority={task.priority}
+                  taskStatus={task.status}
                 />
               ))}
             </div>
