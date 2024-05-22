@@ -75,12 +75,6 @@ const metrics: Metric[] = [
   },
 ];
 
-// const upcomingMeetings = [
-//   { title: 'Sprint Planning', date: '2024-05-25', time: '10:00 AM' },
-//   { title: 'Team Sync', date: '2024-05-26', time: '11:00 AM' },
-//   { title: 'Project Review', date: '2024-05-27', time: '02:00 PM' },
-// ];
-
 const upcomingMeetings: Meeting[] = [
   {
     meetingTitle: 'Sprint Planning',
@@ -104,12 +98,6 @@ const upcomingMeetings: Meeting[] = [
     meetingLocation: 'Room 303',
   },
 ];
-
-// const currentTasks = [
-//   { title: 'Refactor Login Module', dueDate: '2024-05-23', as},
-//   { title: 'Update Documentation', dueDate: '2024-05-24' },
-//   { title: 'Bug Fixes', dueDate: '2024-05-25' },
-// ];
 
 const currentTasks: Task[] = [
   {
