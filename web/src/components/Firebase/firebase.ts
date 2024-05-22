@@ -80,6 +80,10 @@ export const fetchAllTeams = async (): Promise<Team[]> => {
           follow: data.Follow,
           followers: data.Followers,
           LastUpdated: data.LastUpdated,
+          MeetingTopics: data.MeetingTopics.map((meetTopic: { Topic: string; Occurrence: number }) => ({
+            Topic: meetTopic.Topic,
+            Occurrence: meetTopic.Occurrence
+          })),
           name: data.Name,
           Permissions: data.Permissions,
         };

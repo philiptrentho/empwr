@@ -30,12 +30,7 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
         { value: 'option1', label: 'Last Updated' },
         { value: 'option2', label: 'Name' },
         { value: 'option3', label: 'Most Followed' }
-    ];
-    const sampleData = [
-        { label: 'Backlog', value: 12 },
-        { label: 'ML Models', value: 33 },
-        { label: 'Budget', value: 55 }
-    ];
+    ];    
     const [searchQuery2, setSearchQuery2] = useState<string>('');
     const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -123,7 +118,7 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
                             <p className="text-gray-400">{team.followers.length} members</p>
                             <p className="text-sm">{formatLastUpdate(team.LastUpdated)}</p>
                             <div>
-                                <BarChart data={sampleData} />
+                            <BarChart data={team.MeetingTopics.map(topic => ({ label: topic.Topic, value: topic.Occurrence }))} />
                             </div>
                         </div>
                     ))) : (

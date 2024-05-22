@@ -55,11 +55,16 @@ export interface Meeting {
   start: Date;
   title: string;
 }
+export interface StrNumArr {
+  Topic: string;
+  Occurrence: number;
+}
 export interface Team {
   follow: boolean;
   followers: string[];
   LastUpdated: number;
   name: string;
+  MeetingTopics: StrNumArr[];
   Permissions: string;
 }
 export interface Action {
