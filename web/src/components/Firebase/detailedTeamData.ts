@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { Teammate } from '@/types/interfaces/types';
 import { doc, getDoc } from 'firebase/firestore';
 
 import { db } from './firebase';
@@ -24,7 +22,7 @@ export const fetchTeamMates = async (teamId: string) => {
       }
       return teammates;
     } else {
-      return null;
+      return [];
     }
   } catch (error) {
     console.error('Error fetching team:', error);
