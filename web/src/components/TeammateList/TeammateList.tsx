@@ -11,7 +11,7 @@ export default function TeammateList({ teammates }: TeammateListProps) {
     <div className="max-w-full">
       <div className="flex flex-wrap auto-cols-max gap-8">
         {teammates.map((teammate) => (
-          <TeammateCard {...teammate} key={teammate.id} />
+          <TeammateCard {...teammate} key={teammate.user.userId} />
         ))}
       </div>
     </div>

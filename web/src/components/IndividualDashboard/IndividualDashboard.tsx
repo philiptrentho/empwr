@@ -3,45 +3,18 @@ import { Teammate } from '@/types/interfaces/types';
 import Card from '../Card/Card';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import TeammateList from '../TeammateList/TeammateList';
+import { useEffect, useState } from 'react';
+import { fetchTeamMates } from '../Firebase/individualData';
 
 export default function IndividualDashboard() {
-  const teammates: Teammate[] = [
-    {
-      id: 1,
-      name: 'Ethan Pineda',
-      role: 'Software Engineer',
-      avatarURL: '',
-      contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
-    },
-    {
-      id: 2,
-      name: 'Brianna Gallardo',
-      role: 'Product Manager',
-      avatarURL: '',
-      contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
-    },
-    {
-      id: 3,
-      name: 'Miya Liu',
-      role: 'Software Engineer',
-      avatarURL: '',
-      contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
-    },
-    {
-      id: 4,
-      name: 'Chelsey Tao',
-      role: 'Software Engineer',
-      avatarURL: '',
-      contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
-    },
-    {
-      id: 5,
-      name: 'Martin Kong',
-      role: 'Software Engineer',
-      avatarURL: '',
-      contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
-    },
-  ];
+  const [teammates, setTeammates] = useState<Teammate[]>([]);
+
+  useEffect(() => {
+    fetchTeamMates('teamID1').then((teammates) => {
+      setTeammates(teammates);
+      console.log('Teammates:', teammates);
+    });
+  }, []);
 
   return (
     <div>

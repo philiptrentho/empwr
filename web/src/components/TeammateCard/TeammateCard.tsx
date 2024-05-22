@@ -10,8 +10,8 @@ export default function TeammateCard(teammate: Teammate) {
             RA
           </div>
           <div>
-            <h2 className="text-lg font-semibold">{teammate.name}</h2>
-            <p className="text-gray-600">{teammate.role}</p>
+            <h2 className="text-lg font-semibold">{teammate.user.name}</h2>
+            <p className="text-gray-600">{teammate.user.job}</p>
           </div>
         </div>
         <div className="mt-4">
@@ -25,7 +25,7 @@ export default function TeammateCard(teammate: Teammate) {
         </div>
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-600">100%</span>
+            <span className="text-gray-600">{teammate.codeQuality}%</span>
             <span className="text-indigo-600">Code Quality Optimization</span>
           </div>
           <div className="flex justify-between items-center mb-2">

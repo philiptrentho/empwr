@@ -1,19 +1,13 @@
 import {
-  collection,
-  doc,
-  DocumentData,
-  DocumentSnapshot,
-  getDoc,
-  getDocs,
-  getFirestore,
-  QueryDocumentSnapshot,
+  DocumentReference,
 } from 'firebase/firestore';
+
 export interface User {
-  id: number;
+  userId: number;
   name: string;
-  avatarURL: string;
-  email: string;
-  teamColor: string;
+  avatarURL: string | null;
+  job: string;
+  teams: DocumentReference[];
 }
 
 export interface OrgTeamStatsProps {
@@ -29,12 +23,15 @@ export interface OrgViewChartProps {
   heading: string;
   chart: any;
 }
+
 export interface Teammate {
-  id: number;
-  name: string;
-  role: string;
-  avatarURL: string;
-  contributions: string[]; // this is going to be dummy data for now until we figure out what the contributions are
+  contribution: number;
+  agile: number;
+  codeQuality: number;
+  modernTechStack: number;
+  contributionPercent: number; 
+  userId: DocumentReference;
+  user: User;
 }
 
 export interface FrameContainerProps {
