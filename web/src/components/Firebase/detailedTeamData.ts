@@ -3,8 +3,9 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 import { teamCollection } from './databaseConfig';
+import { detailedTeam } from '@/types/interfaces/types';
 
-export const fetchTeamMates = async (teamId: string) => {
+export const fetchTeamDetails = async (teamId: string) => {
   try {
     const teamRef = doc(db, teamCollection, teamId);
     const teamDoc = await getDoc(teamRef);
@@ -20,9 +21,12 @@ export const fetchTeamMates = async (teamId: string) => {
           console.log('No such user document!');
         }
       }
-      return teammates;
+      const teamData = teamDoc.data();
+      teamData.userStats = teammates;
+      console.log('teamData:', teamData as detailedTeam);
+      return teamData as detailedTeam;
     } else {
-      return [];
+      return null;
     }
   } catch (error) {
     console.error('Error fetching team:', error);

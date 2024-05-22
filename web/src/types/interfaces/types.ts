@@ -62,6 +62,26 @@ export interface Team {
   MeetingTopics: StrNumArr[];
   Permissions: string;
 }
+
+export interface detailedTeam { 
+  activeIssues: number;
+  admin: DocumentReference[];
+  contributors: DocumentReference[];
+  emergingThemes: string[];
+  followers: DocumentReference[];
+  insights: number;
+  invitedParticipants: DocumentReference[];
+  lastUpdated: Date;
+  name: string;
+  positiveScore: number;
+  recommendations: string[];
+  results: string;
+  technicalExcellenceScore: number;
+  userStats: Teammate[];
+  viewers: DocumentReference[];
+  maturity: number;
+}
+
 export interface Action {
   actionItems: {
     action: string;
