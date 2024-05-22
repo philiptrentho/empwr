@@ -7,35 +7,35 @@ import TeammateList from '../TeammateList/TeammateList';
 export default function DetailedTeamView() {
   const teammates: Teammate[] = [
     {
-      id: 1,
+      userId: 1,
       name: 'Ethan Pineda',
       role: 'Software Engineer',
       avatarURL: '',
       contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
     },
     {
-      id: 2,
+      userId: 2,
       name: 'Brianna Gallardo',
       role: 'Product Manager',
       avatarURL: '',
       contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
     },
     {
-      id: 3,
+      userId: 3,
       name: 'Miya Liu',
       role: 'Software Engineer',
       avatarURL: '',
       contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
     },
     {
-      id: 4,
+      userId: 4,
       name: 'Chelsey Tao',
       role: 'Software Engineer',
       avatarURL: '',
       contributions: ['Contribution 1', 'Contribution 2', 'Contribution 3'],
     },
     {
-      id: 5,
+      userId: 5,
       name: 'Martin Kong',
       role: 'Software Engineer',
       avatarURL: '',

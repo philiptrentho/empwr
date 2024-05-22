@@ -13,9 +13,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
   taskPriority,
   taskStatus,
 }) => {
-
-
-    
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
       <h2 className="text-xl font-semibold">{taskTitle}</h2>

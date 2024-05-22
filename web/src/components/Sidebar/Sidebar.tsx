@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 export default function Sidebar() {
   const sidebarLinks: string[] = [
-    'Organization',
-    'Team',
+    'OrganizationView',
+    'TeamView',
     'DetailedTeamView',
     'IndividualView',
   ];

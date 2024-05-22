@@ -1,6 +1,4 @@
-import {
-  DocumentReference,
-} from 'firebase/firestore';
+import { DocumentReference } from 'firebase/firestore';
 
 export interface User {
   userId: number;
@@ -21,7 +19,7 @@ export interface OrgTeamStatsProps {
 
 export interface OrgViewChartProps {
   heading: string;
-  chart: any;
+  chart: unknown;
 }
 
 export interface Teammate {
@@ -29,7 +27,7 @@ export interface Teammate {
   agile: number;
   codeQuality: number;
   modernTechStack: number;
-  contributionPercent: number; 
+  contributionPercent: number;
   userId: DocumentReference;
   user: User;
 }
