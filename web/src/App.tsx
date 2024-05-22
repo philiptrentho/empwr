@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import DetailedTeamView from './components/DetailedTeamView/DetailedTeamView';
 import Sidebar from './components/Sidebar/Sidebar';
 import IndividualView from './pages/IndividualView';
 import OrganizationView from './pages/OrganizationView';
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Temp />} />
             <Route path="/OrganizationView" element={<OrganizationView />} />
             <Route path="/TeamView" element={<TeamView />} />
+            <Route path="/DetailedTeamView" element={<DetailedTeamView />} />
             <Route path="/IndividualView" element={<IndividualView />} />
           </Routes>
         </main>
