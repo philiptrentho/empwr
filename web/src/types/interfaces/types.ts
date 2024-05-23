@@ -6,6 +6,7 @@ export interface User {
   avatarURL: string | null;
   job: string;
   teams: DocumentReference[];
+  metrics: Metric[];
 }
 
 export interface OrgTeamStatsProps {
@@ -110,4 +111,11 @@ export interface Task {
   status: string;
   team: DocumentReference;
   assignedTo: DocumentReference[];
+}
+
+export interface Metric { // used in individualData
+  title: string;
+  description: string;
+  summary: string;
+  score: number; // Assuming score is between 0 to 10
 }

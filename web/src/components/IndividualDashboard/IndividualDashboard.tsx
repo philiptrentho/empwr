@@ -1,14 +1,8 @@
-import { Task } from '@/types/interfaces/types';
+import { Task, Metric, User } from '@/types/interfaces/types';
 import TaskCard from '../TaskCard/TaskCard';
 import UpcomingMeetingCard from '../UpcomingMeetingsCard/UpcomingMeetingsCard';
 import { useEffect, useState } from 'react';
 import { fetchUserDetails, fetchUserTasks } from '../Firebase/individualData';
-interface Metric {
-  title: string;
-  description: string;
-  summary: string;
-  score: number; // Assuming score is between 0 to 10
-}
 
 
 interface Meeting {
@@ -19,57 +13,6 @@ interface Meeting {
   meetingEndTime: string;
   meetingLocation: string;
 }
-
-const metrics: Metric[] = [
-  {
-    title: 'Technical Excellence',
-    description: 'Assessing code quality, system design, and tech choices.',
-    summary: 'Excellent',
-    score: 8.5,
-  },
-  {
-    title: 'Development Practices',
-    description: 'Evaluation of coding frameworks, processes, and delivery methods.',
-    summary: 'Good',
-    score: 7.2,
-  },
-  {
-    title: 'Operational Excellence',
-    description: 'Evaluation of coding frameworks, processes, and delivery methods.',
-    summary: 'Excellent',
-    score: 9.0,
-  },
-  {
-    title: 'Team Dynamics',
-    description: 'Gauge of team collaboration, skills, and satisfaction levels.',
-    summary: 'Very Good',
-    score: 8.0,
-  },
-  {
-    title: 'Innovation',
-    description: 'Measurement of research dedication and tech modernity.',
-    summary: 'Good',
-    score: 7.8,
-  },
-  {
-    title: 'Delivery and Results',
-    description: 'Review of software output frequency and stakeholder satisfaction.',
-    summary: 'Very Good',
-    score: 8.4,
-  },
-  {
-    title: 'Culture & Values',
-    description: 'Insights into organizational beliefs, openness, and inclusivity.',
-    summary: 'Excellent',
-    score: 9.1,
-  },
-  {
-    title: 'Business Alignment',
-    description: 'Examining software’s alignment with broader business goals.',
-    summary: 'Good',
-    score: 7.5,
-  },
-];
 
 const upcomingMeetings: Meeting[] = [
   {
@@ -103,6 +46,9 @@ const getBarColor = (score: number) => {
 
 const IndividualDashboard: React.FC = () => {
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
+
+  const [user, setUser] = useState<User|null>(null);
+
   useEffect(() => {
     fetchUserTasks('userID1')
       .then((tasks) => {
@@ -113,6 +59,14 @@ const IndividualDashboard: React.FC = () => {
         console.error('Error fetching tasks:', error);
       });
   },[]);
+
+  useEffect(() => {
+    fetchUserDetails('userID1')
+      .then((user) => {
+        console.log(user)
+        setUser(user);
+      }
+      ),[]});
 
   // useEffect(() => {
   //   let tasks = currentTasks.filter((task) => task.status !== 'Completed');
@@ -127,7 +81,7 @@ const IndividualDashboard: React.FC = () => {
           <div className="col-span-2 p-4 bg-white rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Metrics List</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {metrics.map((metric, index) => (
+              {user && user.metrics.map((metric, index) => (
                 <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-md">
                   <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>
                   <p>{metric.description}</p>
