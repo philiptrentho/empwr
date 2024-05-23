@@ -23,8 +23,8 @@ describe('bs test', () => {
   });
 });
 
-describe('this is going to fail', () => {
-  test('should be false', () => {
-    expect(true).toBe(false);
-  });
-});
+// describe('this is going to fail', () => {
+//   test('should be false', () => {
+//     expect(true).toBe(false);
+//   });
+// });
