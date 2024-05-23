@@ -1,9 +1,10 @@
-import { Task, Metric, User } from '@/types/interfaces/types';
+import { useEffect, useState } from 'react';
+
+import { Task, User } from '@/types/interfaces/types';
+
+import { fetchUserDetails, fetchUserTasks } from '../Firebase/individualData';
 import TaskCard from '../TaskCard/TaskCard';
 import UpcomingMeetingCard from '../UpcomingMeetingsCard/UpcomingMeetingsCard';
-import { useEffect, useState } from 'react';
-import { fetchUserDetails, fetchUserTasks } from '../Firebase/individualData';
-
 
 interface Meeting {
   meetingTitle: string;
@@ -47,31 +48,26 @@ const getBarColor = (score: number) => {
 const IndividualDashboard: React.FC = () => {
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
-  const [user, setUser] = useState<User|null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     fetchUserTasks('userID1')
       .then((tasks) => {
-        console.log(tasks)
+        console.log(tasks);
         setCurrentTasks(tasks);
       })
       .catch((error) => {
         console.error('Error fetching tasks:', error);
       });
-  },[]);
+  }, []);
 
   useEffect(() => {
-    fetchUserDetails('userID1')
-      .then((user) => {
-        console.log(user)
-        setUser(user);
-      }
-      ),[]});
-
-  // useEffect(() => {
-  //   let tasks = currentTasks.filter((task) => task.status !== 'Completed');
-  //   setCurrentTasks(tasks);
-  // }, [currentTasks]);
+    fetchUserDetails('userID1').then((user) => {
+      console.log(user);
+      setUser(user);
+    }),
+      [];
+  });
 
   return (
     <div className="p-6 bg-gray-100 text-gray-900 min-h-screen">
@@ -81,21 +77,22 @@ const IndividualDashboard: React.FC = () => {
           <div className="col-span-2 p-4 bg-white rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Metrics List</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {user && user.metrics.map((metric, index) => (
-                <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-md">
-                  <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>
-                  <p>{metric.description}</p>
-                  <p className="font-bold mt-2">{metric.summary}</p>
-                  <div className="relative pt-1">
-                    <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300">
-                      <div
-                        style={{ width: `${metric.score * 10}%` }}
-                        className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${getBarColor(metric.score)}`}
-                      ></div>
+              {user &&
+                user.metrics.map((metric, index) => (
+                  <div key={index} className="p-4 bg-gray-50 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold mb-2">{metric.title}</h3>
+                    <p>{metric.description}</p>
+                    <p className="font-bold mt-2">{metric.summary}</p>
+                    <div className="relative pt-1">
+                      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-300">
+                        <div
+                          style={{ width: `${metric.score * 10}%` }}
+                          className={`shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${getBarColor(metric.score)}`}
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-lg">
