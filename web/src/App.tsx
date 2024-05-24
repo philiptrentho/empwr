@@ -11,9 +11,9 @@ function App() {
     <Router>
       <div className="flex h-screen">
         <Sidebar />
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 ml-48">
           <Routes>
-            <Route path="/" element={<Temp />} />
+            <Route path="/" element={<OrganizationView />} />
             <Route path="/OrganizationView" element={<OrganizationView />} />
             <Route path="/TeamView" element={<TeamView />} />
             <Route path="/DetailedTeamView" element={<DetailedTeamView />} />
@@ -22,14 +22,6 @@ function App() {
         </main>
       </div>
     </Router>
-  );
-}
-
-function Temp() {
-  return (
-    <div>
-      <h2>Select a page from the sidebar!</h2>
-    </div>
   );
 }
 
