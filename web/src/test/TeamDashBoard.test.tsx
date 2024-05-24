@@ -1,26 +1,22 @@
-// Import necessary libraries
 import { render, screen, fireEvent } from '@testing-library/react';
 import { test } from 'vitest';
 import assert from 'assert';
 import TeamView, { sortByFollowers, sortByName, sortByLastUpdated } from '../pages/TeamView';
 import { Team } from '../types/interfaces/types';
 
-// Test to check if the component renders correctly
 test('renders TeamView component correctly', async () => {
     render(<TeamView />);
-
-    // Check if the component renders correctly
     const teamViewElement = screen.getByText(/Your Results/i);
     assert.ok(teamViewElement);
 });
-// Test to check if the filtering works given data
-test('filtering should work given data', async () => {
+
+test('filtering should render', async () => {
     render(<TeamView />);
 
     const dropdown = await screen.findByText(/Sort By/i);
     assert.ok(dropdown);
 });
-// Test to check if the search box and dropdown components render on load
+
 test('renders search box and dropdown components on load', async () => {
     render(<TeamView />);
 
@@ -31,8 +27,7 @@ test('renders search box and dropdown components on load', async () => {
     assert.ok(dropdown);
 });
 
-// Test to check if the search bar works given data
-test('search bar should work given data', async () => {
+test('search bar should work generally', async () => {
     render(<TeamView />);
 
     const searchBox = screen.getByPlaceholderText(/Search Teams.../i) as HTMLInputElement;
@@ -41,8 +36,7 @@ test('search bar should work given data', async () => {
     assert.strictEqual(searchBox.value, 'test');
 });
 
-// Test to check if the filtering works given data
-test('filtering should work given data', async () => {
+test('filtering should work generally', async () => {
     render(<TeamView />);
 
     const dropdown = screen.getByText(/Sort By/i);
@@ -57,7 +51,6 @@ test('filtering should work given data', async () => {
     assert.ok(option3);
 });
 
-// Test to check if the follow/unfollow button components load correctly
 test('follow/unfollow button components should load correctly', async () => {
     render(<TeamView />);
 
@@ -68,7 +61,6 @@ test('follow/unfollow button components should load correctly', async () => {
     assert.ok(unfollowButton);
 });
 
-// Test to check if the collapsed component successfully hides the TeamUpdate component when true
 describe('TeamView', () => {
     it('should sort teams by name in lexicographic order', () => {
         const teams: Team[] = [
@@ -116,7 +108,6 @@ describe('TeamView', () => {
 });
 
 describe('TeamView', () => {
-    // Test for sorting by last updated date
     it('should sort teams by last updated date', () => {
         const formatDate = (date: Date): string => {
             return date.toLocaleString('en-US', {
@@ -172,7 +163,6 @@ describe('TeamView', () => {
         expect(sortedTeams[2].name).toBe('Team A');
     });
 
-    // Test for sorting by most followed
     it('should sort teams by most followed', () => {
         const teams: Team[] = [
             {
@@ -209,9 +199,7 @@ describe('TeamView', () => {
                 activeIssues: 0
             },
         ];
-
         const sortedTeams = sortByFollowers(teams);
-
         expect(sortedTeams[0].name).toBe('Team B');
         expect(sortedTeams[1].name).toBe('Team A');
         expect(sortedTeams[2].name).toBe('Team C');
