@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import BarChart from '@/components/TeamDashboard/BarChart';
 
 import { Team } from '../../types/interfaces/types';
-
+import './TeamUpdate.css';
 interface DropdownOption {
   value: string;
   label: string;
@@ -25,7 +25,24 @@ function formatLastUpdate(hours: number): string {
     return `Last Updated ${days} day${days === 1 ? '' : 's'} and ${remainingHours} hour${remainingHours === 1 ? '' : 's'} ago`;
   }
 }
+const formatLastUpdated = (timeString: string): string => {
+  const lastUpdatedDate = new Date(timeString);
+  if (isNaN(lastUpdatedDate.getTime())) {
+    throw new Error(`Invalid date format for LastUpdated: ${timeString}`);
+  }
+  
+  const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  });
 
+  return formattedLastUpdated;
+};
 const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
   const options: DropdownOption[] = [
     { value: 'option1', label: 'Last Updated' },
@@ -46,7 +63,13 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
     );
     const sortedTeams = [...filteredTeams];
     if (selectedOption?.value === 'option1') {
-      sortedTeams.sort((a, b) => a.LastUpdated - b.LastUpdated);
+      sortedTeams.sort((a, b) => {
+        const dateA = new Date(a.LastUpdated);
+        const dateB = new Date(b.LastUpdated);
+        if (dateA < dateB) return -1;
+        if (dateA > dateB) return 1;
+        return 0;
+      });
     }
     if (selectedOption?.value === 'option2') {
       sortedTeams.sort((a, b) => {
@@ -64,7 +87,7 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
     <div>
       <input
         type="text"
-        placeholder="Search meetings..."
+        placeholder="Search..."
         value={searchQuery2}
         onChange={(e) => setSearchQuery2(e.target.value)}
         className="border border-gray-300 rounded px-3 py-2 mb-4"
@@ -78,9 +101,8 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
               {selectedOption ? selectedOption.label : 'Filter By'}
             </button>
             <svg
-              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${
-                isOpen ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'
+                }`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -122,7 +144,7 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
             >
               <h2 className="font-bold text-lg mb-2">{team.name}</h2>
               <p className="text-gray-400">{team.followers.length} members</p>
-              <p className="text-sm">{formatLastUpdate(team.LastUpdated)}</p>
+              <p className="text-sm">Last Updated: {formatLastUpdated(team.LastUpdated)}</p>
               <div>
                 <BarChart
                   data={team.MeetingTopics.map((topic) => ({
@@ -131,6 +153,19 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
                   }))}
                 />
               </div>
+              <div className="flex space-x-4 overflow-x-auto hide-scrollbar">
+                <div className="bg-gray-200 rounded p-2 whitespace-nowrap">
+                  <p className="text-sm">Maturity: {team.maturity}</p>
+                </div>
+                <div className="bg-gray-200 rounded p-2 whitespace-nowrap">
+                  <p className="text-sm">Insights: {team.insights}</p>
+                </div>
+                <div className="bg-gray-200 rounded p-2 whitespace-nowrap">
+                  <p className="text-sm">Active Issues: {team.activeIssues}</p>
+                </div>
+              </div>
+
+
             </div>
           ))
         ) : (

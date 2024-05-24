@@ -58,10 +58,13 @@ export interface StrNumArr {
 export interface Team {
   follow: boolean;
   followers: string[];
-  LastUpdated: number;
+  LastUpdated: string;
   name: string;
   MeetingTopics: StrNumArr[];
   Permissions: string;
+  insights: number;
+  maturity: number;
+  activeIssues: number;
 }
 
 export interface detailedTeam { 

@@ -21,6 +21,7 @@ import {
   User,
   UserId,
   Users,
+  StrNumArr
 } from '../../types/interfaces/types';
 
 const firebaseConfig = {
@@ -67,25 +68,82 @@ export const fetchUser = async (userId: string) => {
     throw error;
   }
 };
-export const fetchAllTeams = async (): Promise<Team[]> => {
+// export const fetchAllTeams = async (): Promise<Team[]> => {
+//   try {
+//     const teamsRef = collection(db, 'teams');
+//     const querySnapshot = await getDocs(teamsRef);
+
+//     const teamsArray: Team[] = [];
+//     querySnapshot.forEach((doc: DocumentSnapshot) => {
+//       const data = doc.data();
+//       if (data) {
+//         const team: Team = {
+//           follow: data.Follow,
+//           followers: data.Followers,
+//           LastUpdated: data.LastUpdated,
+//           MeetingTopics: data.MeetingTopics.map((meetTopic: { Topic: string; Occurrence: number }) => ({
+//             Topic: meetTopic.Topic,
+//             Occurrence: meetTopic.Occurrence
+//           })),
+//           name: data.Name,
+//           Permissions: data.Permissions,
+//         };
+//         teamsArray.push(team);
+//       }
+//     });
+//     return teamsArray;
+//   } catch (error) {
+//     console.error('Error fetching teams:', error);
+//     throw error;
+//   }
+// };
+export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
   try {
-    const teamsRef = collection(db, 'teams');
+    const teamsRef = collection(db, 'updated_teams');
     const querySnapshot = await getDocs(teamsRef);
 
     const teamsArray: Team[] = [];
     querySnapshot.forEach((doc: DocumentSnapshot) => {
       const data = doc.data();
       if (data) {
+        const lastUpdatedDate = new Date(data.lastUpdated);
+        if (isNaN(lastUpdatedDate.getTime())) {
+          throw new Error(`Invalid date format for LastUpdated: ${data.LastUpdated}`);
+        }
+        
+        const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          hour12: true
+        });
+
+        const followersArray: string[] = data.followers.map((followerRef: firestore.DocumentReference) => {
+          const pathSegments = followerRef.path.split('/');
+          return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
+        });
+        const meetingTopicsArray: StrNumArr[] = [
+          { Topic: "Positive Score", Occurrence: data.positiveScore },
+          { Topic: "Technical Excellence Score", Occurrence: data.technicalExcellenceScore }
+        ];
         const team: Team = {
-          follow: data.Follow,
-          followers: data.Followers,
-          LastUpdated: data.LastUpdated,
-          MeetingTopics: data.MeetingTopics.map((meetTopic: { Topic: string; Occurrence: number }) => ({
-            Topic: meetTopic.Topic,
-            Occurrence: meetTopic.Occurrence
-          })),
-          name: data.Name,
-          Permissions: data.Permissions,
+          follow: true,
+          followers: followersArray,
+          LastUpdated: data.lastUpdated,
+          // LastUpdated: formattedLastUpdated,
+          MeetingTopics: meetingTopicsArray,
+          // MeetingTopics: data.MeetingTopics.map((meetTopic: { Topic: string; Occurrence: number }) => ({
+          //   Topic: meetTopic.Topic,
+          //   Occurrence: meetTopic.Occurrence
+          // })),
+          name: data.name,
+          Permissions: "Admin",
+          insights: data.insights,
+          activeIssues: data.activeIssues,
+          maturity: data.maturity
         };
         teamsArray.push(team);
       }

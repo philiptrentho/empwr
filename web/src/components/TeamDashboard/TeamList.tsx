@@ -5,10 +5,28 @@ import { Team } from '../../types/interfaces/types';
 interface TeamListProps {
   teams: Team[];
 }
+const formatLastUpdated = (timeString: string): string => {
+  const lastUpdatedDate = new Date(timeString);
+  if (isNaN(lastUpdatedDate.getTime())) {
+    throw new Error(`Invalid date format for LastUpdated: ${timeString}`);
+  }
+  
+  const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  });
+
+  return formattedLastUpdated;
+};
 function formatLastUpdate(hours: number): string {
   const days = Math.floor(hours / 24);
   const remainingHours = hours % 24;
-
+  
   if (days === 0 && remainingHours === 0) {
     return 'Updated less than an hour ago';
   } else if (days === 0) {
@@ -30,14 +48,14 @@ const TeamList: React.FC<TeamListProps> = ({ teams }) => {
         <div className="flex items-center mr-4 w-1/4">
           <p className="font-bold mr-2">Permissions</p>
         </div>
-        <div className="flex items-center mr-4 w-1/5">
+        <div className="flex items-center mr-4 w-1/4">
           <p className="font-bold mr-2">Followers</p>
         </div>
-        <div className="flex items-center mr-4 w-1/5">
+        <div className="flex items-center mr-4 w-1/6">
           <p className="font-bold mr-2">Last Updated</p>
         </div>
       </div>
-      <div className="w-4/5 max-h-96 overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide mr-4 hide-scrollbar">
+      <div className="max-h-96 overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide mr-4 hide-scrollbar">
         {teams.length > 0 ? (
           teams.map((team, index) => (
             <div
@@ -47,7 +65,7 @@ const TeamList: React.FC<TeamListProps> = ({ teams }) => {
               <h2 className="font-bold text-lg mb-2 w-1/5">{team.name}</h2>
               <p className="w-1/5">{team.Permissions}</p>
               <p className="w-1/5">{team.followers.length}</p>
-              <p className="w-1/5">{formatLastUpdate(team.LastUpdated)}</p>
+              <p className="w-1/5">Last Update: {formatLastUpdated(team.LastUpdated)}</p>
               <div className="w-24">
                 <button
                   className={`h-12 py-2 px-4 rounded-full w-full text-center ${team.follow ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-800'}`}
