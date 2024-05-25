@@ -1,5 +1,7 @@
 // NOTE CLIENT DOES NOT USE FIREBASE, BUT THIS IS FOR TESTING/ GETTING SAMPLE USERS FROM FB FOR NOW
 import { initializeApp } from 'firebase/app';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 import {
   collection,
   doc,
@@ -239,5 +241,21 @@ export const fetchAllActions = async () => {
   } catch (error) {
     console.error('Error fetching actions:', error);
     throw error;
+  }
+};
+
+export const addTeam = async (teamData) => {
+  const completeTeamData = {
+    ...teamData,
+    followers: 'N/A',
+    lastUpdated: serverTimestamp(), // Use Firebase serverTimestamp for real-time updates
+    meetingTopics: 'N/A'
+  };
+
+  try {
+    const docRef = await addDoc(collection(db, 'teams'), completeTeamData);
+    console.log('Document written with ID: ', docRef.id);
+  } catch (e) {
+    console.error('Error adding document: ', e);
   }
 };

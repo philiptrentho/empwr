@@ -9,6 +9,7 @@ import {
   fetchAllTeams,
 } from '../components/Firebase/firebase';
 import { Team, StrNumArr } from '../types/interfaces/types';
+import CreateTeamModal from './CreateTeamModal';
 interface DropdownOption {
   value: string;
   label: string;
@@ -25,10 +26,21 @@ export default function TeamView() {
   const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(null);
   const [filteredAndSortedTeams, setFilteredAndSortedTeams] = useState<Team[]>([]);
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const handleOptionClick = (option: DropdownOption) => {
     setSelectedOption(option);
     setIsOpen(false);
   };
+
+  const handleCreateTeamClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +53,8 @@ export default function TeamView() {
 
     fetchData();
   }, []);
+
+
   useEffect(() => {
 
     const filteredTeams = teamsData.filter(team =>
@@ -62,6 +76,8 @@ export default function TeamView() {
     }
     setFilteredAndSortedTeams(sortedTeams);
   }, [teamsData, searchQuery, selectedOption]);
+
+
   const filteredTeams = teamsData.filter((team) =>
     team.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
@@ -70,14 +86,6 @@ export default function TeamView() {
     <div className="flex flex-row">
       <div className="flex-grow">
         <div className="p-5 space-y-4">
-          <div>
-            <h1 className="text-lg font-semibold">Your Results</h1>
-            <h2 className="text-xl font-bold">Quantitatively Managed</h2>
-            <p className="text-gray-600">
-              Teams rely on metrics and advanced tools for decision-making, automating
-              testing, and fostering continuous delivery practices...
-            </p>
-          </div>
           <h1 className="font-sans font-bold text-3xl mb-20">Teams</h1>
           <div className="font-sans text-2xl flex flex-row space-x-4">
             <div>Following</div>
@@ -92,6 +100,15 @@ export default function TeamView() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border border-gray-300 rounded px-3 py-2 mb-4 w-2/5"
             />
+
+            <button
+              className="create-team-btn p-2 bg-blue-500 text-white rounded"
+              onClick={handleCreateTeamClick}
+
+            >
+              Create New Team
+            </button>
+
             {/* Code below is same as filtering in team update. Should make separate component
             for filtering and search. I can do later if needed.
             */}
@@ -153,6 +170,8 @@ export default function TeamView() {
           </div>
         </div>
       )}
+      <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal} />
+
     </div>
 
   );

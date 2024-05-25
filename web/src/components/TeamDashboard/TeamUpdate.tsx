@@ -69,18 +69,21 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
         onChange={(e) => setSearchQuery2(e.target.value)}
         className="border border-gray-300 rounded px-3 py-2 mb-4"
       />
+
       <div className="flex items-center">
         <div>21 Updates</div>
         &nbsp; &nbsp;
+
         <div className="dropdown">
+
           <div className="flex items-center">
             <button className="dropdown-toggle" onClick={() => setIsOpen(!isOpen)}>
               {selectedOption ? selectedOption.label : 'Filter By'}
             </button>
+
             <svg
-              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${
-                isOpen ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'
+                }`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
