@@ -6,7 +6,7 @@ import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
 import { LucideArrowRightToLine, LucideArrowLeftFromLine } from 'lucide-react';
 import {
-  fetchAllTeams,
+  fetchAllUpdatedTeams
 } from '../components/Firebase/firebase';
 import { Team, StrNumArr } from '../types/interfaces/types';
 import CreateTeamModal from './CreateTeamModal';
@@ -14,10 +14,37 @@ interface DropdownOption {
   value: string;
   label: string;
 }
+
+const sortByLastUpdated = (teams: Team[]) => {
+  return teams.sort((a, b) => {
+    console.log('Date A:', a.LastUpdated);
+    console.log('Date B:', b.LastUpdated);
+    const dateA = new Date(a.LastUpdated);
+    const dateB = new Date(b.LastUpdated);
+
+    if (dateA > dateB) return -1;
+    if (dateA < dateB) return 1;
+    return 0;
+  });
+};
+
+
+const sortByName = (teams: Team[]) => {
+  return teams.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+};
+
+const sortByFollowers = (teams: Team[]) => {
+  return teams.sort((a, b) => b.followers.length - a.followers.length);
+};
+
 export default function TeamView() {
   const options: DropdownOption[] = [
-    { value: 'option1', label: 'Last Updated' },
-    { value: 'option2', label: 'Name' },
+    { value: 'option1', label: 'Lastest Update' },
+    { value: 'option2', label: 'Lexicographic Order' },
     { value: 'option3', label: 'Most Followed' }
   ];
   const [teamsData, setTeamsData] = useState<Team[]>([]);
@@ -44,7 +71,7 @@ export default function TeamView() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedTeamsData = await fetchAllTeams();
+        const fetchedTeamsData = await fetchAllUpdatedTeams();
         setTeamsData(fetchedTeamsData);
       } catch (error) {
         console.error('Error handling:', error);
@@ -62,17 +89,11 @@ export default function TeamView() {
     );
     let sortedTeams = [...filteredTeams];
     if (selectedOption?.value === 'option1') {
-      sortedTeams.sort((a, b) => a.LastUpdated - b.LastUpdated);
-    }
-    if (selectedOption?.value === 'option2') {
-      sortedTeams.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-    }
-    if (selectedOption?.value === 'option3') {
-      sortedTeams.sort((a, b) => a.followers.length - b.followers.length);
+      sortedTeams = sortByLastUpdated(sortedTeams);
+    } else if (selectedOption?.value === 'option2') {
+      sortedTeams = sortByName(sortedTeams);
+    } else if (selectedOption?.value === 'option3') {
+      sortedTeams = sortByFollowers(sortedTeams);
     }
     setFilteredAndSortedTeams(sortedTeams);
   }, [teamsData, searchQuery, selectedOption]);
@@ -95,7 +116,7 @@ export default function TeamView() {
           <div className="flex flex-row justify-between">
             <input
               type="text"
-              placeholder="Search meetings..."
+              placeholder="Search Teams..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border border-gray-300 rounded px-3 py-2 mb-4 w-2/5"
@@ -115,7 +136,7 @@ export default function TeamView() {
             <div className="dropdown">
               <div className="flex items-center">
                 <button className="dropdown-toggle" onClick={() => setIsOpen(!isOpen)}>
-                  {selectedOption ? selectedOption.label : 'Filter By'}
+                  {selectedOption ? selectedOption.label : 'Sort By'}
                 </button>
                 <svg
                   className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'
@@ -176,3 +197,4 @@ export default function TeamView() {
 
   );
 }
+export { sortByLastUpdated, sortByName, sortByFollowers };
