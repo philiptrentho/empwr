@@ -1,5 +1,4 @@
 import { ChartOptions } from 'chart.js';
-import { callback } from 'chart.js/dist/helpers/helpers.core';
 import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
@@ -39,8 +38,11 @@ const options: ChartOptions<'bar'> = {
     y: {
       beginAtZero: true,
       ticks: {
-        callback: function (value: number) {
-          return value + '%';
+        callback: function (tickValue: string | number): string | number | undefined {
+          if (typeof tickValue === 'number') {
+            return tickValue + '%';
+          }
+          return tickValue; // For string values, return as is
         },
       },
       max: 30,
