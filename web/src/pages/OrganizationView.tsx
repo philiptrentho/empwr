@@ -29,18 +29,16 @@ export default function OrganizationView() {
             teamName="Vehicle software"
             meetingTime={45}
             meetingPercentage={70}
-            decisionsLinked={3}
-            decisionsNotLinked={2}
-            maturity={4}
+            decisions={['Decision 1', 'Decision 2']}
+            severity={0.4}
           />
 
           <OrgTeamStats
             teamName="Platform systems"
             meetingTime={52}
             meetingPercentage={94}
-            decisionsLinked={2}
-            decisionsNotLinked={1}
-            maturity={3.2}
+            decisions={['Decision 1', 'Decision 2']}
+            severity={-0.3}
           />
         </div>
       </div>

@@ -13,9 +13,8 @@ export interface OrgTeamStatsProps {
   teamName: string;
   meetingTime: number;
   meetingPercentage: number;
-  decisionsLinked: number;
-  decisionsNotLinked: number;
-  maturity: number;
+  decisions: string[];
+  severity: number;
 }
 
 export interface OrgViewChartProps {
@@ -67,7 +66,7 @@ export interface Team {
   activeIssues: number;
 }
 
-export interface detailedTeam { 
+export interface detailedTeam {
   activeIssues: number;
   admin: DocumentReference[];
   contributors: DocumentReference[];
@@ -116,7 +115,8 @@ export interface Task {
   assignedTo: DocumentReference[];
 }
 
-export interface Metric { // used in individualData
+export interface Metric {
+  // used in individualData
   title: string;
   description: string;
   summary: string;

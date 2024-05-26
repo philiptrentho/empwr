@@ -6,22 +6,12 @@ import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
 export default function MaturityScore() {
   const data = {
-    labels: ['Sep', 'Oct', 'Nov'],
+    labels: ['Vehicle Software', 'Platform systems'],
     datasets: [
       {
-        label: 'Negative',
-        data: [1, 0, 0],
-        backgroundColor: '#D36875',
-      },
-      {
-        label: 'Neutral',
-        data: [0, 2, 0],
-        backgroundColor: '#F9D371',
-      },
-      {
-        label: 'Positive',
-        data: [0, 0, 4],
-        backgroundColor: '#10b981',
+        label: 'Sentiment per Team',
+        data: [0.4, -0.2],
+        backgroundColor: ['#10b981', '#f87171'],
       },
     ],
   };
@@ -34,15 +24,14 @@ export default function MaturityScore() {
     },
     plugins: {
       legend: {
-        display: true,
-        position: 'bottom',
+        display: false,
       },
     },
   };
 
   return (
     <OrgViewChart
-      heading="Maturity Score"
+      heading="Sentiment per Team"
       // @ts-expect-error
       chart={<Bar data={data} options={options} />}
     />

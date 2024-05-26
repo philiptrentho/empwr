@@ -1,79 +1,58 @@
-import { Chart } from 'chart.js/auto';
-import { useEffect, useRef } from 'react';
+import { ChartOptions } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
 const data = {
-  labels: ['Sep', 'Oct', 'Nov'],
+  labels: [
+    'Project Updates',
+    'Budget Discussions',
+    'Team Coordination',
+    'Client Feedback',
+    'Technical Issues',
+    'Strategy Planning',
+    'Resource Allocation',
+    'Performance Reviews',
+    'Product Development',
+    'Sales and Marketing',
+  ],
   datasets: [
     {
-      label: 'Linked to objectives',
-      data: [2, 6, 10],
-      borderColor: '#4D388E',
-      backgroundColor: 'rgba(75, 0, 130, 0.2)',
-      borderWidth: 2,
-      fill: false,
-      tension: 0.1,
-    },
-    {
-      label: 'Not linked',
-      data: [1, 3, 7],
-      borderColor: '#39B4E6',
-      backgroundColor: 'rgba(0, 162, 255, 0.2)',
-      borderWidth: 2,
-      fill: false,
-      tension: 0.1,
+      label: 'Decisions per Topic',
+      data: [10, 12, 9, 8, 8, 6, 5, 3, 2, 1],
+      backgroundColor: '#39B4E6',
     },
   ],
 };
 
-const options = {
+const options: ChartOptions<'bar'> = {
   responsive: true,
   scales: {
     x: {
-      beginAtZero: true,
+      ticks: {
+        font: {
+          size: 8,
+        },
+      },
     },
     y: {
       beginAtZero: true,
-      max: 12,
     },
   },
   plugins: {
     legend: {
-      position: 'bottom',
-      labels: {
-        boxWidth: 15,
-        padding: 10,
-        font: {
-          size: 14,
-        },
-      },
+      display: false,
     },
   },
 };
 
 const Decisions: React.FC = () => {
-  const chartRef = useRef<Chart<'line', number[], string> | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      const newChartInstance = new Chart(canvasRef.current, {
-        type: 'line',
-        data,
-        // @ts-ignore
-        options,
-      });
-      chartRef.current = newChartInstance;
-    }
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, []);
-
-  return <OrgViewChart heading="Decisions" chart={<canvas ref={canvasRef} />} />;
+  return (
+    <OrgViewChart
+      heading="Decisions per Topic"
+      chart={<Bar data={data} options={options} />}
+    />
+  );
 };
 
 export default Decisions;
