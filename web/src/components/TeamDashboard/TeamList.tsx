@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Team } from '../../types/interfaces/types';
+import { useNavigate } from 'react-router-dom';
+
 
 interface TeamListProps {
   teams: Team[];
@@ -40,6 +42,7 @@ function formatLastUpdate(hours: number): string {
 }
 
 const TeamList: React.FC<TeamListProps> = ({ teams, typeData}) => {
+  const navigate = useNavigate();
   return (
     <div style={{ maxHeight: '70vh' }}>
       <div className="flex flex-wrap w-4/5">
@@ -62,6 +65,10 @@ const TeamList: React.FC<TeamListProps> = ({ teams, typeData}) => {
             <div
               key={index}
               className="flex flex-row space-x-4 bg-white rounded p-4 mb-4"
+              onClick={() => {
+                console.log(team.teamID);
+                navigate(`/DetailedTeamView/${team.teamID}`);
+              }}
             >
               <h2 className="font-bold text-lg mb-2 w-1/5">{team.name}</h2>
               <p className="w-1/5">{team.Permissions}</p>

@@ -147,15 +147,11 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
           { Topic: "Technical Excellence Score", Occurrence: data.technicalExcellenceScore }
         ];
         const team: Team = {
+          teamID: doc.id,
           follow: true,
           followers: followersArray,
           LastUpdated: data.lastUpdated,
-          // LastUpdated: formattedLastUpdated,
           MeetingTopics: meetingTopicsArray,
-          // MeetingTopics: data.MeetingTopics.map((meetTopic: { Topic: string; Occurrence: number }) => ({
-          //   Topic: meetTopic.Topic,
-          //   Occurrence: meetTopic.Occurrence
-          // })),
           name: data.name,
           Permissions: "Admin",
           insights: data.insights,
