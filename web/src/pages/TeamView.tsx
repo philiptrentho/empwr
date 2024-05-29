@@ -201,7 +201,7 @@ export default function TeamView() {
           <div className="text-md font-sans">{teamsData.length} Teams</div>
           <div className="flex-grow">
             <div>
-              <TeamList teams={filteredAndSortedTeams} />
+              <TeamList teams={filteredAndSortedTeams} typeData={activeTab}/>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Team } from '../../types/interfaces/types';
 
 interface TeamListProps {
   teams: Team[];
+  typeData : string;
 }
 const formatLastUpdated = (timeString: string): string => {
   const lastUpdatedDate = new Date(timeString);
@@ -38,7 +39,7 @@ function formatLastUpdate(hours: number): string {
   }
 }
 
-const TeamList: React.FC<TeamListProps> = ({ teams }) => {
+const TeamList: React.FC<TeamListProps> = ({ teams, typeData}) => {
   return (
     <div style={{ maxHeight: '70vh' }}>
       <div className="flex flex-wrap w-4/5">
@@ -67,14 +68,47 @@ const TeamList: React.FC<TeamListProps> = ({ teams }) => {
               <p className="w-1/5">{team.followers.length}</p>
               <p className="w-1/5">Last Update: {formatLastUpdated(team.LastUpdated)}</p>
               <div className="w-24">
-                <button
-                  className={`h-12 py-2 px-4 rounded-full w-full text-center ${team.follow ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-800'}`}
-                  onClick={() => {
-                    /* nothing here for now; we'll change it to adjust the followers array later */
-                  }}
-                >
-                  {team.follow ? 'Unfollow' : 'Follow'}
-                </button>
+                {typeData === 'Following' && (
+                  <button
+                    className={`h-12 py-2 px-4 rounded-full w-full text-center ${team.follow ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-800'}`}
+                    onClick={() => {
+                      /* nothing here for now; we'll change it to adjust the followers array later */
+                    }}
+                  >
+                    {team.follow ? 'Unfollow' : 'Follow'}
+                  </button>
+                )}
+                {typeData === 'Explore' && (
+                  <button
+                    className={`h-12 py-2 px-4 rounded-full w-full text-center bg-green-500 text-white`}
+                    onClick={() => {
+                      /* nothing here for now; we'll change it to join the team later */
+                    }}
+                  >
+                    Join
+                  </button>
+                )}
+                {typeData === 'Invitations' && (
+                  <div className="flex space-x-4">
+                    <button
+                      className="h-10 py-1 px-3 rounded-full w-1/2 text-center bg-green-500 text-white"
+                      onClick={() => {
+                        /* nothing here for now; we'll change it to accept the invitation later */
+                      }}
+                    >
+                      &#10003;
+                    </button>
+                    <button
+                      className="h-10 py-1 px-3 rounded-full w-1/2 text-center bg-red-500 text-white"
+                      onClick={() => {
+                        /* nothing here for now; we'll change it to decline the invitation later */
+                      }}
+                    >
+                      &#10007;
+                    </button>
+                  </div>
+                )}
+                
               </div>
             </div>
           ))
