@@ -157,8 +157,9 @@ const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClose, setS
                         </select>
                     </div>
                     <div style={formActionsStyle}>
-                        <button type="submit" style={primaryButtonStyle}>Create</button>
+                       
                         <button type="button" style={secondaryButtonStyle} onClick={onClose}>Close</button>
+                        <button type="submit" style={primaryButtonStyle}>Create</button>
                     </div>
                 </form>
             </div>

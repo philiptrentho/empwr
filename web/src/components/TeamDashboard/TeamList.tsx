@@ -40,7 +40,7 @@ function formatLastUpdate(hours: number): string {
 
 const TeamList: React.FC<TeamListProps> = ({ teams }) => {
   return (
-    <div>
+    <div style={{ maxHeight: '70vh' }}>
       <div className="flex flex-wrap w-4/5">
         <div className="flex items-center mr-4 w-1/4">
           <p className="font-bold">Name</p>
@@ -55,7 +55,7 @@ const TeamList: React.FC<TeamListProps> = ({ teams }) => {
           <p className="font-bold mr-2">Last Updated</p>
         </div>
       </div>
-      <div className="max-h-96 overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide mr-4 hide-scrollbar">
+      <div className="max-h-full overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide mr-4 hide-scrollbar">
         {teams.length > 0 ? (
           teams.map((team, index) => (
             <div

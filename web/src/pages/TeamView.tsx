@@ -60,7 +60,7 @@ export default function TeamView() {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>('Following');
-  const userID = ""
+  const userID = "userID6"
   const handleOptionClick = (option: DropdownOption) => {
     setSelectedOption(option);
     setIsOpen(false);
