@@ -133,6 +133,11 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
           hour12: true
         });
 
+        const invitationsArray: string[] = data.invitedParticipants.map((invitationsRef: firestore.DocumentReference) => {
+          const pathSegments = invitationsRef.path.split('/');
+          return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
+        });
+
         const followersArray: string[] = data.followers.map((followerRef: firestore.DocumentReference) => {
           const pathSegments = followerRef.path.split('/');
           return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
@@ -155,7 +160,8 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
           Permissions: "Admin",
           insights: data.insights,
           activeIssues: data.activeIssues,
-          maturity: data.maturity
+          maturity: data.maturity,
+          invitations: invitationsArray
         };
         teamsArray.push(team);
       }
