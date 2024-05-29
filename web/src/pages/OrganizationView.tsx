@@ -1,9 +1,22 @@
 import Decisions from '@/components/Decisions/Decisions';
+import { getTeamInfo } from '@/components/Firebase/organizationData';
 import MaturityScore from '@/components/MaturityScore/MaturityScore';
 import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
 import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
+import { OrgTeamStatsProps } from '@/types/interfaces/types';
+import { useEffect, useState } from 'react';
 
 export default function OrganizationView() {
+  const [teams, setTeams] = useState<OrgTeamStatsProps[]>([]);
+  useEffect(() =>  {
+    console.log('OrganizationView');
+    getTeamInfo('organizationID1').then((teams) => {
+      console.log(teams);
+      setTeams(teams);
+    }).catch((error) => {
+      console.error('Error fetching teams:', error);
+    });
+  }, []);
   return (
     <div>
       <div className="h-20 flex items-center justify-between border-b px-6">
@@ -25,21 +38,17 @@ export default function OrganizationView() {
 
         <h1 className="font-medium">Teams</h1>
         <div className="flex flex-col gap-4">
-          <OrgTeamStats
-            teamName="Vehicle software"
-            meetingTime={45}
-            meetingPercentage={70}
-            decisions={['Decision 1', 'Decision 2']}
-            severity={0.4}
-          />
-
-          <OrgTeamStats
-            teamName="Platform systems"
-            meetingTime={52}
-            meetingPercentage={94}
-            decisions={['Decision 1', 'Decision 2']}
-            severity={-0.3}
-          />
+          {
+            teams.map((team, index) => (
+              <OrgTeamStats
+                teamName={team.teamName}
+                meetingTime={team.meetingTime}
+                meetingPercentage={team.meetingPercentage}
+                decisions={team.decisions}
+                severity={team.severity}
+              />
+            ))
+          }
         </div>
       </div>
     </div>
