@@ -329,10 +329,10 @@ export const addTeam = async ({ name, permissions, follow }: TeamData) => {
     insights: 0,
     invitedParticipants: [],
     maturity: 0,
-    positiveScore: 0,
+    positiveScore: 100,
     recommendations: [],
     results: "",
-    tecnicalExcellenceScore: 0,
+    technicalExcellenceScore: 100,
     userStats: [],
     viewers: []
   };
