@@ -64,6 +64,7 @@ export interface Team {
   insights: number;
   maturity: number;
   activeIssues: number;
+  invitations : string[];
 }
 
 export interface detailedTeam {
