@@ -123,12 +123,12 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
           hour12: true
         });
 
-        const followersArray: string[] = data.invitations.map((invitationsRef: firestore.DocumentReference) => {
+        const invitationsArray: string[] = data.invitedParticipants.map((invitationsRef: firestore.DocumentReference) => {
           const pathSegments = invitationsRef.path.split('/');
           return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
         });
 
-        const invitationsArray: string[] = data.followers.map((followerRef: firestore.DocumentReference) => {
+        const followersArray: string[] = data.followers.map((followerRef: firestore.DocumentReference) => {
           const pathSegments = followerRef.path.split('/');
           return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
         });
