@@ -8,7 +8,11 @@ export interface User {
   teams: DocumentReference[];
   metrics: Metric[];
 }
-
+export interface TeamData {
+  name: string;
+  follow: boolean;
+  permissions: 'viewer' | 'admin'; // assuming these are the only possible values
+}
 export interface OrgTeamStatsProps {
   teamName: string;
   meetingTime: number;

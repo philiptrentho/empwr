@@ -47,6 +47,7 @@ export default function TeamView() {
     { value: 'option2', label: 'Lexicographic Order' },
     { value: 'option3', label: 'Most Followed' }
   ];
+  const [submitTrigger, setSubmitTrigger] = useState<boolean>(false);
   const [teamsData, setTeamsData] = useState<Team[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -79,7 +80,7 @@ export default function TeamView() {
     };
 
     fetchData();
-  }, []);
+  }, [submitTrigger]);
 
 
   useEffect(() => {
@@ -191,7 +192,7 @@ export default function TeamView() {
           </div>
         </div>
       )}
-      <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal}  setSubmitTrigger = {setSubmitTrigger} />
 
     </div>
 

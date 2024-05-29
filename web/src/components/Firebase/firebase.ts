@@ -1,8 +1,7 @@
 // NOTE CLIENT DOES NOT USE FIREBASE, BUT THIS IS FOR TESTING/ GETTING SAMPLE USERS FROM FB FOR NOW
 import { initializeApp } from 'firebase/app';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-
 import {
+  addDoc, serverTimestamp, Timestamp,
   collection,
   doc,
   DocumentData,
@@ -23,8 +22,10 @@ import {
   User,
   UserId,
   Users,
-  StrNumArr
+  StrNumArr,
+  TeamData
 } from '../../types/interfaces/types';
+import { M } from 'vite/dist/node/types.d-aGj9QkWt';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBDKaHeRDyyZszMB89oV0BdXx1eOODIiHk',
@@ -53,7 +54,16 @@ console.log('Firestore instance:', db);
 // } else {
 //     console.log('db does not have the collection method');
 // }
+const formatDate = (date: Date): string => {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(date.getUTCSeconds()).padStart(2, '0');
 
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+};
 // Example function using db
 export const fetchUser = async (userId: string) => {
   try {
@@ -302,16 +312,33 @@ export const fetchAllActions = async () => {
   }
 };
 
-export const addTeam = async (teamData) => {
+export const addTeam = async ({ name, permissions, follow }: TeamData) => {
+  const currentDateTime = new Date();
+  const formattedDateTime = formatDate(currentDateTime);
   const completeTeamData = {
-    ...teamData,
-    followers: 'N/A',
-    lastUpdated: serverTimestamp(), // Use Firebase serverTimestamp for real-time updates
-    meetingTopics: 'N/A'
+    name,
+    permissions,
+    lastUpdated: formattedDateTime,
+    followers: [],
+    meetingTopics: 'N/A',
+    activeIssues: 0,
+    admin: [],
+    contributors: [],
+    decisions: [],
+    emergingThemes: [],
+    insights: 0,
+    invitedParticipants: [],
+    maturity: 0,
+    positiveScore: 0,
+    recommendations: [],
+    results: "",
+    tecnicalExcellenceScore: 0,
+    userStats: [],
+    viewers: []
   };
 
   try {
-    const docRef = await addDoc(collection(db, 'teams'), completeTeamData);
+    const docRef = await addDoc(collection(db, 'updated_teams'), completeTeamData);
     console.log('Document written with ID: ', docRef.id);
   } catch (e) {
     console.error('Error adding document: ', e);

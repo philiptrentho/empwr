@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import { addTeam } from '../components/Firebase/firebase';
+import { TeamData } from '@/types/interfaces/types';
+interface CreateTeamModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    setSubmitTrigger: React.Dispatch<React.SetStateAction<boolean>>; 
+}
 
-function CreateTeamModal({ isOpen, onClose }) {
-    const [formData, setFormData] = useState({
+const CreateTeamModal: React.FC<CreateTeamModalProps> = ({ isOpen, onClose, setSubmitTrigger }) => {
+    // const [formData, setFormData] = useState({
+    //     name: '',
+    //     follow: false,
+    //     permissions: 'viewer'
+    // });
+
+    const [formData, setFormData] = useState<TeamData>({
         name: '',
         follow: false,
         permissions: 'viewer'
     });
-
     if (!isOpen) return null;
 
     const modalOverlayStyle: React.CSSProperties = {
@@ -83,18 +94,27 @@ function CreateTeamModal({ isOpen, onClose }) {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
+        const { name, value, type } = e.target;
 
+        if (type === 'checkbox') {
+            const { checked } = e.target as HTMLInputElement;
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value,
+            }));
+        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+    };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await addTeam(formData);
             onClose();
+            setSubmitTrigger((prevState: boolean) => !prevState);
         } catch (error) {
             console.error('Error adding document: ', error);
         }
