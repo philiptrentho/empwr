@@ -73,17 +73,17 @@ export default function TeamView() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const fetchData = async () => {
+    try {
+      const fetchedTeamsData = await fetchAllUpdatedTeams();
+      setTeamsData(fetchedTeamsData);
+    } catch (error) {
+      console.error('Error handling:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedTeamsData = await fetchAllUpdatedTeams();
-        setTeamsData(fetchedTeamsData);
-      } catch (error) {
-        console.error('Error handling:', error);
-      }
-    };
-
+  
     fetchData();
   }, [submitTrigger]);
 
@@ -107,14 +107,14 @@ export default function TeamView() {
     // Now apply tab-specific filtering after sorting
     switch (activeTab) {
       case 'Following':
-        sortedTeams = sortedTeams.filter(team => team.followers.includes(userID));
-        break;
+      sortedTeams = sortedTeams.filter(team => team.followers.includes(userID));
+      break;
       case 'Explore':
-        // No additional filtering needed for explore
-        break;
+      sortedTeams = sortedTeams.filter(team => !team.followers.includes(userID));
+      break;
       case 'Invitations':
-        sortedTeams = sortedTeams.filter(team => team.invitations.includes(userID));
-        break;
+      sortedTeams = sortedTeams.filter(team => team.invitations.includes(userID));
+      break;
     }
   
     setFilteredAndSortedTeams(sortedTeams);
@@ -201,7 +201,7 @@ export default function TeamView() {
           <div className="text-md font-sans">{teamsData.length} Teams</div>
           <div className="flex-grow">
             <div>
-              <TeamList teams={filteredAndSortedTeams} typeData={activeTab}/>
+              <TeamList teams={filteredAndSortedTeams} typeData={activeTab} userID={userID} refreshTeams={fetchData}/>
             </div>
           </div>
         </div>

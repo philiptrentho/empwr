@@ -17,7 +17,6 @@ function App() {
             <Route path="/OrganizationView" element={<OrganizationView />} />
             <Route path="/TeamView" element={<TeamView />} />
             <Route path="/DetailedTeamView/:teamID" element={<DetailedTeamView />} />
-
             <Route path="/IndividualView" element={<IndividualView />} />
           </Routes>
         </main>

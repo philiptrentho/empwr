@@ -3,7 +3,6 @@ export default function Sidebar() {
   const sidebarLinks: string[] = [
     'OrganizationView',
     'TeamView',
-    'DetailedTeamView',
     'IndividualView',
   ];
 
