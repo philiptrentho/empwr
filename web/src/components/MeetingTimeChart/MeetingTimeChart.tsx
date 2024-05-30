@@ -3,28 +3,6 @@ import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
-const data = {
-  labels: [
-    'Project Updates',
-    'Budget Discussions',
-    'Team Coordination',
-    'Client Feedback',
-    'Technical Issues',
-    'Strategy Planning',
-    'Resource Allocation',
-    'Performance Reviews',
-    'Product Development',
-    'Sales and Marketing',
-  ],
-  datasets: [
-    {
-      label: 'Meeting Time Spent per Topic',
-      data: [25, 15, 20, 10, 10, 10, 5, 3, 2, 0],
-      backgroundColor: '#4D388E',
-    },
-  ],
-};
-
 const options: ChartOptions<'bar'> = {
   responsive: true,
   scales: {
@@ -55,7 +33,17 @@ const options: ChartOptions<'bar'> = {
   },
 };
 
-export default function MeetingTimeChart() {
+export default function MeetingTimeChart({topics, times}) {
+  const data = {
+    labels: topics,
+    datasets: [
+      {
+        label: 'Meeting Time Spent per Topic',
+        data: times,
+        backgroundColor: '#4D388E',
+      },
+    ],
+  };
   return (
     <OrgViewChart
       heading="Meeting Time Spent per Topic"
