@@ -1,8 +1,10 @@
 import 'chart.js/auto';
-import { Bar } from 'react-chartjs-2';
-import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
+
 import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+
 import { getTeamInfo } from '@/components/Firebase/organizationData';
+import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
 export default function MaturityScore() {
   const [data, setData] = useState({
@@ -20,14 +22,17 @@ export default function MaturityScore() {
     const fetchSentimentScores = async () => {
       try {
         const teams = await getTeamInfo('organizationID1');
-        const teamNames = teams.map(team => team.teamName);
-        const sentiments = teams.map(team => team.severity);
-        const backgroundColors = sentiments.map(sentiment => (sentiment >= 0 ? '#10b981' : '#f87171'));
-        
+        const teamNames = teams.map((team) => team.teamName);
+        const sentiments = teams.map((team) => team.severity);
+        const backgroundColors = sentiments.map((sentiment) =>
+          sentiment >= 0 ? '#10b981' : '#f87171',
+        );
+
         setData({
           labels: teamNames,
           datasets: [
-            { //  dataset object similarly to Dev
+            {
+              //  dataset object similarly to Dev
               label: 'Sentiment per Team',
               data: sentiments,
               backgroundColor: backgroundColors,
