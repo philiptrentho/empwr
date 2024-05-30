@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { detailedTeam, Teammate } from '@/types/interfaces/types';
 
+import { detailedTeam, Teammate } from '@/types/interfaces/types';
+import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../Card/Card';
 import { fetchTeamDetails } from '../Firebase/detailedTeamData';
 import InfoCard from '../InfoCard/InfoCard';
@@ -9,27 +10,39 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import TeammateList from '../TeammateList/TeammateList';
 
 export default function DetailedTeamView() {
+  const { teamID } = useParams();
   const [team, setTeam] = useState<detailedTeam | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    fetchTeamDetails('teamID1')
+    if (teamID){
+      fetchTeamDetails(teamID)
       .then((team) => {
         setTeam(team);
       })
       .catch((error) => {
         console.error('Error fetching teammates:', error);
       });
+    }
+  
   }, []);
 
   return (
     <div>
+
+      {/* Back button with a left arrow */}
+      <button
+        onClick={() => navigate('/TeamView')}
+        className="p-2 text-lg font-semibold bg-gray-200 rounded hover:bg-gray-300"
+      >
+        ←
+      </button>
       {team === null && <div>Loading...</div>}
       {team && (
         <>
           <div className="p-5 space-y-4">
             <div>
-              <h1 className="text-lg font-semibold">Your Results</h1>
-              <h2 className="text-xl font-bold">Quantitatively Managed</h2>
+            <h1 className="text-2xl font-semibold">{team.name}</h1>
+              <h2 className="text-lg font-bold">Quantitatively Managed</h2>
               <p className="text-gray-600">
                 Teams rely on metrics and advanced tools for decision-making, automating
                 testing, and fostering continuous delivery practices...

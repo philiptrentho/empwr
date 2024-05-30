@@ -16,7 +16,7 @@ function App() {
             <Route path="/" element={<OrganizationView />} />
             <Route path="/OrganizationView" element={<OrganizationView />} />
             <Route path="/TeamView" element={<TeamView />} />
-            <Route path="/DetailedTeamView" element={<DetailedTeamView />} />
+            <Route path="/DetailedTeamView/:teamID" element={<DetailedTeamView />} />
             <Route path="/IndividualView" element={<IndividualView />} />
           </Routes>
         </main>
