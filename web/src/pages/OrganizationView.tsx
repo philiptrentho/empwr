@@ -24,6 +24,10 @@ export default function OrganizationView() {
       console.error('Error fetching meetings:', error);
     });
   }, []);
+
+  const topics = meetings.map((meeting) => meeting.topic);
+  const times = meetings.map((meeting) => meeting.timeOnTopic);
+  const counts = meetings.map((meeting) => meeting.numDecisions);
   return (
     <div>
       <div className="h-20 flex items-center justify-between border-b px-6">
@@ -38,9 +42,15 @@ export default function OrganizationView() {
 
       <div className="flex flex-col gap-8 px-6 py-10">
         <div className="flex w-full gap-8 flex-wrap">
-          <MeetingTimeChart />
+          <MeetingTimeChart 
+            topics={topics}
+            times={times}  
+          />
           <MaturityScore />
-          <Decisions />
+          <Decisions
+            topics={topics}
+            counts={counts}
+          />
         </div>
 
         <h1 className="font-medium">Teams</h1>
