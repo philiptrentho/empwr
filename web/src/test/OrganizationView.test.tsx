@@ -1,13 +1,10 @@
 import '@testing-library/jest-dom';
+
 import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { fetchOrgMeetings, getTeamInfo } from '@/components/Firebase/organizationData';
 import OrganizationView from '@/pages/OrganizationView';
-import Decisions from '@/components/Decisions/Decisions';
-import MaturityScore from '@/components/MaturityScore/MaturityScore';
-import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
-import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
-import { getTeamInfo, fetchOrgMeetings } from '@/components/Firebase/organizationData';
 
 // Mock the child components
 vi.mock('@/components/Decisions/Decisions', () => ({
@@ -27,6 +24,7 @@ vi.mock('@/components/MeetingTimeChart/MeetingTimeChart', () => ({
 
 vi.mock('@/components/OrgTeamStats/OrgTeamStats', () => ({
   __esModule: true,
+  // @ts-expect-error not dealing with this right now lol
   default: (props) => <div>{props.teamName} Stats</div>,
 }));
 
