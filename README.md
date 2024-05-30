@@ -95,6 +95,17 @@ npm run build
 firebase deploy --only hosting
 ```
 
+## Project overview
+- A web-based dashboard that provides insight on unstructured business data, specifically from meetings, empowering teams by streamlining the collaboration process. 
+- Optimize Meetings: Receive meeting summaries that include participants, topics discussed, decisions made, and action items
+- Monitor Team Dynamics: Understand team performance through metrics, such as average meeting duration, topic frequency, etc.
+Improve Project Health: Utilize insights over time to track team confidence and ensure priorities are being addressed, allowing for faster detection of emerging project risks
+
+## Application Link
+[App Link](https://tribe-b.web.app/)
+
+## Project Backlog
+[Backlog Link](https://github.com/orgs/NU394-S2024TTh/projects/3)
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
