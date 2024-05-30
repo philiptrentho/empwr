@@ -111,7 +111,7 @@ const IndividualDashboard: React.FC = () => {
             </div>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">Current Tasks</h2>
+            <h2 className="text-xl font-semibold mb-4">Action Items</h2>
             <div className="space-y-4">
               {currentTasks.map((task, index) => (
                 <TaskCard

@@ -2,6 +2,7 @@ import { ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
+import { DecisionsProps } from '@/types/interfaces/types';
 
 const options: ChartOptions<'bar'> = {
   responsive: true,
@@ -24,7 +25,7 @@ const options: ChartOptions<'bar'> = {
   },
 };
 
-export default function Decisions({topics, counts}){
+export default function Decisions({ topics, counts }: DecisionsProps) {
   const data = {
     labels: topics,
     datasets: [

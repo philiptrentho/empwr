@@ -5,9 +5,10 @@ import { Bar } from 'react-chartjs-2';
 
 import { getTeamInfo } from '@/components/Firebase/organizationData';
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
+import { ChartData } from '@/types/interfaces/types';
 
 export default function MaturityScore() {
-  const [data, setData] = useState({
+  const [data, setData] = useState<ChartData>({
     labels: [],
     datasets: [
       {
@@ -32,7 +33,6 @@ export default function MaturityScore() {
           labels: teamNames,
           datasets: [
             {
-              //  dataset object similarly to Dev
               label: 'Sentiment per Team',
               data: sentiments,
               backgroundColor: backgroundColors,
@@ -63,7 +63,6 @@ export default function MaturityScore() {
   return (
     <OrgViewChart
       heading="Sentiment per Team"
-      // @ts-expect-error
       chart={<Bar data={data} options={options} />}
     />
   );

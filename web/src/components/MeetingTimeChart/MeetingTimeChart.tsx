@@ -2,7 +2,7 @@ import { ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
-
+import { MeetingTimeChartProps } from '@/types/interfaces/types';
 const options: ChartOptions<'bar'> = {
   responsive: true,
   scales: {
@@ -33,7 +33,7 @@ const options: ChartOptions<'bar'> = {
   },
 };
 
-export default function MeetingTimeChart({topics, times}) {
+export default function MeetingTimeChart({ topics, times }: MeetingTimeChartProps) {
   const data = {
     labels: topics,
     datasets: [

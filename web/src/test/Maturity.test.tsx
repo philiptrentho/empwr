@@ -14,13 +14,8 @@ describe.only('MaturityScore component', () => {
     vi.clearAllMocks();
   });
 
-  test('should render the OrgViewChart heading', () => {
+  test('should render sentiment per team bar chart', () => {
     render(<MaturityScore />);
-    expect(screen.getByText(/Maturity Score/i)).toBeInTheDocument();
-  });
-
-  test('should render the pretend Bar chart', () => {
-    render(<MaturityScore />);
-    expect(screen.getByText(/Bar Chart/i)).toBeInTheDocument();
+    expect(screen.getByText(/Sentiment per Team/i)).toBeInTheDocument();
   });
 });

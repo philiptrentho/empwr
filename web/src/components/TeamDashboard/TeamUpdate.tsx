@@ -1,9 +1,10 @@
+import './TeamUpdate.css';
+
 import React, { useEffect, useState } from 'react';
 
 import BarChart from '@/components/TeamDashboard/BarChart';
 
 import { Team } from '../../types/interfaces/types';
-import './TeamUpdate.css';
 interface DropdownOption {
   value: string;
   label: string;
@@ -11,26 +12,13 @@ interface DropdownOption {
 interface TeamListProps {
   teams: Team[];
 }
-function formatLastUpdate(hours: number): string {
-  const days = Math.floor(hours / 24);
-  const remainingHours = hours % 24;
 
-  if (days === 0 && remainingHours === 0) {
-    return 'Last Updated less than an hour ago';
-  } else if (days === 0) {
-    return `Last Updated ${remainingHours} hour${remainingHours === 1 ? '' : 's'} ago`;
-  } else if (remainingHours === 0) {
-    return `Last Updated ${days} day${days === 1 ? '' : 's'} ago`;
-  } else {
-    return `Last Updated ${days} day${days === 1 ? '' : 's'} and ${remainingHours} hour${remainingHours === 1 ? '' : 's'} ago`;
-  }
-}
 const formatLastUpdated = (timeString: string): string => {
   const lastUpdatedDate = new Date(timeString);
   if (isNaN(lastUpdatedDate.getTime())) {
     throw new Error(`Invalid date format for LastUpdated: ${timeString}`);
   }
-  
+
   const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -38,7 +26,7 @@ const formatLastUpdated = (timeString: string): string => {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
-    hour12: true
+    hour12: true,
   });
 
   return formattedLastUpdated;
@@ -96,17 +84,16 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
       <div className="flex items-center">
         <div>21 Updates</div>
         &nbsp; &nbsp;
-
         <div className="dropdown">
-
           <div className="flex items-center">
             <button className="dropdown-toggle" onClick={() => setIsOpen(!isOpen)}>
               {selectedOption ? selectedOption.label : 'Filter By'}
             </button>
 
             <svg
-              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'
-                }`}
+              className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${
+                isOpen ? 'rotate-180' : 'rotate-0'
+              }`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -148,7 +135,9 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
             >
               <h2 className="font-bold text-lg mb-2">{team.name}</h2>
               <p className="text-gray-400">{team.followers.length} members</p>
-              <p className="text-sm">Last Updated: {formatLastUpdated(team.LastUpdated)}</p>
+              <p className="text-sm">
+                Last Updated: {formatLastUpdated(team.LastUpdated)}
+              </p>
               <div>
                 <BarChart
                   data={team.MeetingTopics.map((topic) => ({
@@ -168,8 +157,6 @@ const TeamUpdate: React.FC<TeamListProps> = ({ teams }) => {
                   <p className="text-sm">Active Issues: {team.activeIssues}</p>
                 </div>
               </div>
-
-
             </div>
           ))
         ) : (

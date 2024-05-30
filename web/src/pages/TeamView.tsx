@@ -1,21 +1,15 @@
 import './TeamView.css';
 
-import React, { useState, useRef, useEffect } from 'react';
+import { LucideArrowLeftFromLine, LucideArrowRightToLine } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
-import { LucideArrowRightToLine, LucideArrowLeftFromLine } from 'lucide-react';
-import { fetchAllUpdatedTeams } from '../components/Firebase/firebase';
-import { Team, StrNumArr } from '../types/interfaces/types';
-import CreateTeamModal from './CreateTeamModal';
-interface DropdownOption {
-  value: string;
-  label: string;
-}
+import { Team } from '@/types/interfaces/types';
+import { DropdownOption } from '@/types/interfaces/types';
 
-interface TabProps {
-  name: string;
-}
+import { fetchAllUpdatedTeams } from '../components/Firebase/firebase';
+import CreateTeamModal from './CreateTeamModal';
 
 const sortByLastUpdated = (teams: Team[]) => {
   return teams.sort((a, b) => {
@@ -255,4 +249,4 @@ export default function TeamView() {
     </div>
   );
 }
-export { sortByLastUpdated, sortByName, sortByFollowers };
+export { sortByFollowers, sortByLastUpdated, sortByName };

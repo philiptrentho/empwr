@@ -6,6 +6,7 @@ import MaturityScore from '@/components/MaturityScore/MaturityScore';
 import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
 import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
 import { OrgTeamStatsProps } from '@/types/interfaces/types';
+import { Meeting } from '@/types/interfaces/types';
 
 export default function OrganizationView() {
   const [teams, setTeams] = useState<OrgTeamStatsProps[]>([]);
@@ -30,9 +31,9 @@ export default function OrganizationView() {
       });
   }, []);
 
-  const topics = meetings.map((meeting) => meeting.topic);
-  const times = meetings.map((meeting) => meeting.timeOnTopic);
-  const counts = meetings.map((meeting) => meeting.numDecisions);
+  const topics: string[] = meetings.map((meeting) => meeting.topic);
+  const times: number[] = meetings.map((meeting) => meeting.timeOnTopic);
+  const counts: number[] = meetings.map((meeting) => meeting.numDecisions);
   return (
     <div>
       <div className="h-20 flex items-center justify-between border-b px-6">

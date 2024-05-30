@@ -1,9 +1,9 @@
 import { doc, getDoc } from 'firebase/firestore';
 
-import { db } from './firebase';
+import { detailedTeam } from '@/types/interfaces/types';
 
 import { teamCollection } from './databaseConfig';
-import { detailedTeam } from '@/types/interfaces/types';
+import { db } from './firebase';
 
 export const fetchTeamDetails = async (teamId: string) => {
   try {
@@ -23,7 +23,6 @@ export const fetchTeamDetails = async (teamId: string) => {
       }
       const teamData = teamDoc.data();
       teamData.userStats = teammates;
-      console.log('teamData:', teamData as detailedTeam);
       return teamData as detailedTeam;
     } else {
       return null;

@@ -18,6 +18,7 @@ function App() {
             <Route path="/TeamView" element={<TeamView />} />
             <Route path="/DetailedTeamView/:teamID" element={<DetailedTeamView />} />
             <Route path="/IndividualView" element={<IndividualView />} />
+            <Route path="/IndividualView/:userID" element={<IndividualView />} />
           </Routes>
         </main>
       </div>

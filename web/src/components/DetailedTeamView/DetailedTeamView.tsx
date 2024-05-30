@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import { detailedTeam } from '@/types/interfaces/types';
 
-import { detailedTeam, Teammate } from '@/types/interfaces/types';
-import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../Card/Card';
 import { fetchTeamDetails } from '../Firebase/detailedTeamData';
 import InfoCard from '../InfoCard/InfoCard';
@@ -14,21 +14,19 @@ export default function DetailedTeamView() {
   const [team, setTeam] = useState<detailedTeam | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-    if (teamID){
+    if (teamID) {
       fetchTeamDetails(teamID)
-      .then((team) => {
-        setTeam(team);
-      })
-      .catch((error) => {
-        console.error('Error fetching teammates:', error);
-      });
+        .then((team) => {
+          setTeam(team);
+        })
+        .catch((error) => {
+          console.error('Error fetching teammates:', error);
+        });
     }
-  
   }, []);
 
   return (
     <div>
-
       {/* Back button with a left arrow */}
       <button
         onClick={() => navigate('/TeamView')}
@@ -41,7 +39,7 @@ export default function DetailedTeamView() {
         <>
           <div className="p-5 space-y-4">
             <div>
-            <h1 className="text-2xl font-semibold">{team.name}</h1>
+              <h1 className="text-2xl font-semibold">{team.name}</h1>
               <h2 className="text-lg font-bold">Quantitatively Managed</h2>
               <p className="text-gray-600">
                 Teams rely on metrics and advanced tools for decision-making, automating

@@ -1,7 +1,7 @@
 // NOTE CLIENT DOES NOT USE FIREBASE, BUT THIS IS FOR TESTING/ GETTING SAMPLE USERS FROM FB FOR NOW
 import { initializeApp } from 'firebase/app';
 import {
-  addDoc, serverTimestamp, Timestamp,
+  addDoc,
   collection,
   doc,
   DocumentData,
@@ -9,23 +9,17 @@ import {
   getDoc,
   getDocs,
   getFirestore,
-  QueryDocumentSnapshot,
-  where,
 } from 'firebase/firestore';
 import { firestore } from 'firebase-admin';
 
 import {
   Action,
-  dummyType,
   Meeting,
-  Team,
-  User,
-  UserId,
-  Users,
   StrNumArr,
-  TeamData
+  Team,
+  TeamData,
+  Users,
 } from '../../types/interfaces/types';
-import { M } from 'vite/dist/node/types.d-aGj9QkWt';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBDKaHeRDyyZszMB89oV0BdXx1eOODIiHk',
@@ -122,29 +116,26 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
         if (isNaN(lastUpdatedDate.getTime())) {
           throw new Error(`Invalid date format for LastUpdated: ${data.LastUpdated}`);
         }
-        
-        const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric',
-          hour12: true
-        });
 
-        const invitationsArray: string[] = data.invitedParticipants.map((invitationsRef: firestore.DocumentReference) => {
-          const pathSegments = invitationsRef.path.split('/');
-          return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
-        });
+        const invitationsArray: string[] = data.invitedParticipants.map(
+          (invitationsRef: firestore.DocumentReference) => {
+            const pathSegments = invitationsRef.path.split('/');
+            return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
+          },
+        );
 
-        const followersArray: string[] = data.followers.map((followerRef: firestore.DocumentReference) => {
-          const pathSegments = followerRef.path.split('/');
-          return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
-        });
+        const followersArray: string[] = data.followers.map(
+          (followerRef: firestore.DocumentReference) => {
+            const pathSegments = followerRef.path.split('/');
+            return pathSegments[pathSegments.length - 1]; // Extract the last segment, which is the user ID
+          },
+        );
         const meetingTopicsArray: StrNumArr[] = [
-          { Topic: "Positive Score", Occurrence: data.positiveScore },
-          { Topic: "Technical Excellence Score", Occurrence: data.technicalExcellenceScore }
+          { Topic: 'Positive Score', Occurrence: data.positiveScore },
+          {
+            Topic: 'Technical Excellence Score',
+            Occurrence: data.technicalExcellenceScore,
+          },
         ];
         const team: Team = {
           teamID: doc.id,
@@ -153,11 +144,11 @@ export const fetchAllUpdatedTeams = async (): Promise<Team[]> => {
           LastUpdated: data.lastUpdated,
           MeetingTopics: meetingTopicsArray,
           name: data.name,
-          Permissions: "Admin",
+          Permissions: 'Admin',
           insights: data.insights,
           activeIssues: data.activeIssues,
           maturity: data.maturity,
-          invitations: invitationsArray
+          invitations: invitationsArray,
         };
         teamsArray.push(team);
       }
@@ -177,15 +168,17 @@ export const fetchMeetings = async (userId: string) => {
 
     for (const doc of querySnapshot.docs) {
       const data = doc.data() as DocumentData;
-      const attendeeRefs: any[] = data.attendee;
+      const attendeeRefs: unknown[] = data.attendee;
       const attendeeSnapshots = await Promise.all(
-        attendeeRefs.map((ref: any) => getDoc(ref)),
+        // @ts-expect-error attendeeRefs is an array of unknown
+        attendeeRefs.map((ref: unknown) => getDoc(ref)),
       );
       const userIds = attendeeSnapshots.map((snapshot) =>
         snapshot.exists() ? snapshot.id : null,
       );
 
       if (userIds.includes(userId)) {
+        // @ts-expect-error userIds is an array of string | null
         const meeting: Meeting = {
           attendee: data.attendee,
           end: data.end.toDate(),
@@ -276,6 +269,7 @@ export const fetchAllMeetings = async () => {
     const meetingsArray: Meeting[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
+      // @ts-expect-error data is of type DocumentData
       const meeting: Meeting = {
         attendee: data.attendee,
         end: data.end.toDate(),
@@ -314,7 +308,7 @@ export const fetchAllActions = async () => {
   }
 };
 
-export const addTeam = async ({ name, permissions, follow }: TeamData) => {
+export const addTeam = async ({ name, permissions }: TeamData) => {
   const currentDateTime = new Date();
   const formattedDateTime = formatDate(currentDateTime);
   const completeTeamData = {
@@ -333,10 +327,10 @@ export const addTeam = async ({ name, permissions, follow }: TeamData) => {
     maturity: 0,
     positiveScore: 100,
     recommendations: [],
-    results: "",
+    results: '',
     technicalExcellenceScore: 100,
     userStats: [],
-    viewers: []
+    viewers: [],
   };
 
   try {

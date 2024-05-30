@@ -1,5 +1,6 @@
-import { Teammate } from '@/types/interfaces/types';
+import { Link } from 'react-router-dom';
 
+import { Teammate } from '@/types/interfaces/types';
 export default function TeammateCard(teammate: Teammate) {
   return (
     <div className="flex space-x-4">
@@ -10,7 +11,9 @@ export default function TeammateCard(teammate: Teammate) {
             RA
           </div>
           <div>
-            <h2 className="text-lg font-semibold">{teammate.user.name}</h2>
+            <Link to={`/teammate/${teammate.user.userId}`}>
+              <h2 className="text-lg font-semibold">{teammate.user.name}</h2>
+            </Link>
             <p className="text-gray-600">{teammate.user.job}</p>
           </div>
         </div>

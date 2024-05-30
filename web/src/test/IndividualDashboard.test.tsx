@@ -100,9 +100,9 @@ describe('IndividualDashboard component', () => {
     });
   });
 
-  test('should render Current Tasks section', async () => {
+  test('should render Action Items section', async () => {
     await waitFor(() => {
-      const tasksHeader = screen.getByText(/Current Tasks/i);
+      const tasksHeader = screen.getByText(/Action Items/i);
       expect(tasksHeader).toBeInTheDocument();
 
       const taskElement = screen.getByText(mockTasks[0].title);

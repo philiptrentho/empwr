@@ -1,47 +1,109 @@
 import '@testing-library/jest-dom';
-
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+import OrganizationView from '@/pages/OrganizationView';
 import Decisions from '@/components/Decisions/Decisions';
 import MaturityScore from '@/components/MaturityScore/MaturityScore';
 import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
 import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
-import OrganizationView from '@/pages/OrganizationView';
+import { getTeamInfo, fetchOrgMeetings } from '@/components/Firebase/organizationData';
 
-vi.mock('@/components/Decisions/Decisions');
-vi.mock('@/components/MaturityScore/MaturityScore');
-vi.mock('@/components/MeetingTimeChart/MeetingTimeChart');
-vi.mock('@/components/OrgTeamStats/OrgTeamStats');
+// Mock the child components
+vi.mock('@/components/Decisions/Decisions', () => ({
+  __esModule: true,
+  default: () => <div>Decisions Chart</div>,
+}));
+
+vi.mock('@/components/MaturityScore/MaturityScore', () => ({
+  __esModule: true,
+  default: () => <div>Maturity Score Chart</div>,
+}));
+
+vi.mock('@/components/MeetingTimeChart/MeetingTimeChart', () => ({
+  __esModule: true,
+  default: () => <div>Meeting Time Chart</div>,
+}));
+
+vi.mock('@/components/OrgTeamStats/OrgTeamStats', () => ({
+  __esModule: true,
+  default: (props) => <div>{props.teamName} Stats</div>,
+}));
+
+// Mock the data fetching functions
+vi.mock('@/components/Firebase/organizationData', () => ({
+  getTeamInfo: vi.fn(),
+  fetchOrgMeetings: vi.fn(),
+}));
 
 describe('OrganizationView component', () => {
+  const mockTeams = [
+    {
+      teamName: 'Vehicle software',
+      meetingTime: 120,
+      meetingPercentage: 75,
+      decisions: ['Decision 1', 'Decision 2'],
+      severity: 0.5,
+    },
+    {
+      teamName: 'Platform systems',
+      meetingTime: 150,
+      meetingPercentage: 80,
+      decisions: ['Decision 3', 'Decision 4'],
+      severity: 0.3,
+    },
+  ];
+
+  const mockMeetings = [
+    {
+      topic: 'Topic 1',
+      timeOnTopic: 30,
+      numDecisions: 5,
+      attendee: ['user1', 'user2'],
+      end: new Date(),
+      eventId: 'event1',
+      ownerId: 1,
+      start: new Date(),
+      title: 'Meeting 1',
+    },
+    {
+      topic: 'Topic 2',
+      timeOnTopic: 45,
+      numDecisions: 8,
+      attendee: ['user3', 'user4'],
+      end: new Date(),
+      eventId: 'event2',
+      ownerId: 2,
+      start: new Date(),
+      title: 'Meeting 2',
+    },
+  ];
+
   beforeEach(() => {
-    vi.mocked(Decisions).mockImplementation(() => <div>Decisions Chart</div>);
-    vi.mocked(MaturityScore).mockImplementation(() => <div>Maturity Score Chart</div>);
-    vi.mocked(MeetingTimeChart).mockImplementation(() => <div>Meeting Time Chart</div>);
-    vi.mocked(OrgTeamStats).mockImplementation((props) => (
-      <div>{props.teamName} Stats</div>
-    ));
+    vi.mocked(getTeamInfo).mockResolvedValue(mockTeams);
+    vi.mocked(fetchOrgMeetings).mockResolvedValue(mockMeetings);
   });
 
-  test('should render the MeetingTimeChart component', () => {
+  test('should render the MeetingTimeChart component', async () => {
     render(<OrganizationView />);
-    expect(screen.getByText(/Meeting Time Chart/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Meeting Time Chart/i)).toBeInTheDocument();
   });
 
-  test('should render the MaturityScore component', () => {
+  test('should render the MaturityScore component', async () => {
     render(<OrganizationView />);
-    expect(screen.getByText(/Maturity Score Chart/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Maturity Score Chart/i)).toBeInTheDocument();
   });
 
-  test('should render the Decisions component', () => {
+  test('should render the Decisions component', async () => {
     render(<OrganizationView />);
-    expect(screen.getByText(/Decisions Chart/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Decisions Chart/i)).toBeInTheDocument();
   });
 
-  test('should render the OrgTeamStats components', () => {
+  test('should render the OrgTeamStats components', async () => {
     render(<OrganizationView />);
-    expect(screen.getByText(/Vehicle software Stats/i)).toBeInTheDocument();
-    expect(screen.getByText(/Platform systems Stats/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Vehicle software Stats/i)).toBeInTheDocument();
+      expect(screen.getByText(/Platform systems Stats/i)).toBeInTheDocument();
+    });
   });
 });

@@ -1,8 +1,9 @@
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { Team } from '../../types/interfaces/types';
 import { db } from '../Firebase/firebase'; // Ensure you have the correct path for firebase config
-import { doc, updateDoc, arrayRemove , arrayUnion} from 'firebase/firestore';
 
 interface TeamEntryProps {
   team: Team;
@@ -10,7 +11,6 @@ interface TeamEntryProps {
   index: number;
   userID: string;
   refreshTeams: () => Promise<void>;
-
 }
 
 const formatLastUpdated = (timeString: string): string => {
@@ -26,41 +26,47 @@ const formatLastUpdated = (timeString: string): string => {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric',
-    hour12: true
+    hour12: true,
   });
 };
 
-const TeamEntry: React.FC<TeamEntryProps> = ({ team, typeData, index, userID, refreshTeams }) => {
-const navigate = useNavigate();
+const TeamEntry: React.FC<TeamEntryProps> = ({
+  team,
+  typeData,
+  index,
+  userID,
+  refreshTeams,
+}) => {
+  const navigate = useNavigate();
 
-const handleUnfollow = async () => {
+  const handleUnfollow = async () => {
     const teamRef = doc(db, 'updated_teams', team.teamID);
     const userRef = doc(db, 'updated_users', userID); // Creates a document reference for the user
 
     console.log(userRef.path); // This should log the correct path to ensure it matches what is stored in Firestore
 
     try {
-        await updateDoc(teamRef, {
-            followers: arrayRemove(userRef) // Use the document reference here
-        });
-        refreshTeams()
-        console.log("User removed from followers.");
-        // fetchTeams(); // Uncomment this to refresh data once you confirm the function works
+      await updateDoc(teamRef, {
+        followers: arrayRemove(userRef), // Use the document reference here
+      });
+      refreshTeams();
+      console.log('User removed from followers.');
+      // fetchTeams(); // Uncomment this to refresh data once you confirm the function works
     } catch (error) {
-        console.error('Error updating team followers:', error);
+      console.error('Error updating team followers:', error);
     }
-};
+  };
 
-const handleJoin = async () => {
+  const handleJoin = async () => {
     const teamRef = doc(db, 'updated_teams', team.teamID);
     const userRef = doc(db, 'updated_users', userID);
 
     try {
       await updateDoc(teamRef, {
-        followers: arrayUnion(userRef)
+        followers: arrayUnion(userRef),
       });
-      refreshTeams()
-      console.log("User added to followers.");
+      refreshTeams();
+      console.log('User added to followers.');
     } catch (error) {
       console.error('Error adding to team followers:', error);
     }
@@ -73,10 +79,10 @@ const handleJoin = async () => {
     try {
       await updateDoc(teamRef, {
         invitedParticipants: arrayRemove(userRef),
-        followers: arrayUnion(userRef)
+        followers: arrayUnion(userRef),
       });
-      refreshTeams()
-      console.log("Invitation accepted and user added to followers.");
+      refreshTeams();
+      console.log('Invitation accepted and user added to followers.');
     } catch (error) {
       console.error('Error accepting invitation:', error);
     }
@@ -88,15 +94,14 @@ const handleJoin = async () => {
 
     try {
       await updateDoc(teamRef, {
-        invitedParticipants: arrayRemove(userRef)
+        invitedParticipants: arrayRemove(userRef),
       });
-      refreshTeams()
-      console.log("Invitation declined and user removed from invited participants.");
+      refreshTeams();
+      console.log('Invitation declined and user removed from invited participants.');
     } catch (error) {
       console.error('Error declining invitation:', error);
     }
   };
-
 
   return (
     <div
@@ -132,7 +137,7 @@ const handleJoin = async () => {
             className="h-12 py-2 px-4 rounded-full w-full text-center bg-green-500 text-white"
             onClick={(e) => {
               e.stopPropagation();
-              handleJoin()
+              handleJoin();
               // Placeholder for join team logic
             }}
           >
