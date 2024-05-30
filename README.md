@@ -101,6 +101,9 @@ firebase deploy --only hosting
 - Monitor Team Dynamics: Understand team performance through metrics, such as average meeting duration, topic frequency, etc.
 Improve Project Health: Utilize insights over time to track team confidence and ensure priorities are being addressed, allowing for faster detection of emerging project risks
 
+![alt text](https://firebasestorage.googleapis.com/v0/b/tribe-b.appspot.com/o/Screenshot%202024-05-29%20at%2011.09.00%E2%80%AFPM.png?alt=media&token=1cefa9f4-3e15-4404-8d21-a1f79a66df38)
+![alt text](https://firebasestorage.googleapis.com/v0/b/tribe-b.appspot.com/o/Screenshot%202024-05-29%20at%2011.09.09%E2%80%AFPM.png?alt=media&token=238362e7-6ed8-49e6-8502-8f1957259b4a)
+![alt text](https://firebasestorage.googleapis.com/v0/b/tribe-b.appspot.com/o/Screenshot%202024-05-29%20at%2011.09.18%E2%80%AFPM.png?alt=media&token=305181c7-6e29-428d-8ef4-69d636929f63)
 ## Application Link
 [App Link](https://tribe-b.web.app/)
 
