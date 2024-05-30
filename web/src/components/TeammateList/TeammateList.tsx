@@ -1,10 +1,6 @@
-import { Teammate } from '@/types/interfaces/types';
+import { TeammateListProps } from '@/types/interfaces/types';
 
 import TeammateCard from '../TeammateCard/TeammateCard';
-
-interface TeammateListProps {
-  teammates: Teammate[];
-}
 
 export default function TeammateList({ teammates }: TeammateListProps) {
   return (

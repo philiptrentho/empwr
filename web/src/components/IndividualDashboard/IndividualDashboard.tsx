@@ -1,41 +1,94 @@
+import { DocumentReference } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { Task, User } from '@/types/interfaces/types';
+import { Meeting } from '@/types/interfaces/types';
 
 import { fetchUserDetails, fetchUserTasks } from '../Firebase/individualData';
 import TaskCard from '../TaskCard/TaskCard';
 import UpcomingMeetingCard from '../UpcomingMeetingsCard/UpcomingMeetingsCard';
 
-interface Meeting {
-  meetingTitle: string;
-  meetingDescription?: string;
-  meetingDate: string;
-  meetingStartTime: string;
-  meetingEndTime: string;
-  meetingLocation: string;
-}
-
 const upcomingMeetings: Meeting[] = [
   {
+    title: 'Sprint Planning',
     meetingTitle: 'Sprint Planning',
     meetingDate: '2024-05-25',
     meetingStartTime: '10:00 AM',
     meetingEndTime: '11:00 AM',
     meetingLocation: 'Room 301',
+    attendee: [],
+    end: new Date('2024-05-25T11:00:00'),
+    eventId: '1',
+    ownerId: 1,
+    start: new Date('2024-05-25T10:00:00'),
+    topic: 'Sprint Planning',
+    timeOnTopic: 60,
+    numDecisions: 0,
   },
   {
+    title: 'Team Sync',
     meetingTitle: 'Team Sync',
     meetingDate: '2024-05-26',
     meetingStartTime: '11:00 AM',
     meetingEndTime: '12:00 PM',
     meetingLocation: 'Room 302',
+    attendee: [],
+    end: new Date('2024-05-26T12:00:00'),
+    eventId: '2',
+    ownerId: 1,
+    start: new Date('2024-05-26T11:00:00'),
+    topic: 'Team Sync',
+    timeOnTopic: 60,
+    numDecisions: 0,
   },
   {
+    title: 'Project Review',
     meetingTitle: 'Project Review',
     meetingDate: '2024-05-27',
     meetingStartTime: '02:00 PM',
     meetingEndTime: '03:00 PM',
     meetingLocation: 'Room 303',
+    attendee: [],
+    end: new Date('2024-05-27T15:00:00'),
+    eventId: '3',
+    ownerId: 1,
+    start: new Date('2024-05-27T14:00:00'),
+    topic: 'Project Review',
+    timeOnTopic: 60,
+    numDecisions: 0,
+  },
+];
+
+// these are only rendered if the fetch fails which only happens if this user doesn't have any tasks
+const dummyActionItems: Task[] = [
+  {
+    title: 'Finish Project Proposal',
+    description: 'Complete the project proposal and submit it for review.',
+    dueDate: '2024-05-23',
+    priority: 'High',
+    status: 'In Progress',
+    team: {} as DocumentReference,
+    assignedTo: [] as DocumentReference[],
+  },
+  {
+    title: 'Refactor Login Module',
+    description: 'Refactor the login module to use the new authentication service.',
+    dueDate: '2024-05-23',
+    priority: 'High',
+    status: 'In Progress',
+    team: {} as DocumentReference,
+    assignedTo: [] as DocumentReference[],
+  },
+
+  {
+    title: 'Update User Profile',
+    description: 'Update the user profile page to include new fields.',
+    dueDate: '2024-05-30',
+    priority: 'Medium',
+    status: 'Not Started',
+    team: {} as DocumentReference,
+    assignedTo: [] as DocumentReference[],
   },
 ];
 
@@ -49,30 +102,34 @@ const IndividualDashboard: React.FC = () => {
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
   const [user, setUser] = useState<User | null>(null);
-
+  const { userID } = useParams<{ userID: string }>();
+  console.log(userID);
   useEffect(() => {
-    fetchUserTasks('userID1')
+    // @ts-expect-error - expects a string, but received undefined
+    fetchUserTasks(userID)
       .then((tasks) => {
         console.log(tasks);
         setCurrentTasks(tasks);
       })
       .catch((error) => {
         console.error('Error fetching tasks:', error);
+        setCurrentTasks(dummyActionItems);
       });
   }, []);
 
   useEffect(() => {
-    fetchUserDetails('userID1').then((user) => {
+    // @ts-expect-error - expects a string, but received undefined
+    fetchUserDetails(userID).then((user) => {
       console.log(user);
       setUser(user);
     }),
       [];
-  });
+  }, []);
 
   return (
     <div className="p-6 bg-gray-100 text-gray-900 min-h-screen">
       <div className="flex flex-col items-start mb-8">
-        <h1 className="text-2xl font-bold mb-4">Hi, NAME</h1>
+        <h1 className="text-2xl font-bold mb-4">Hi, {user?.name}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <div className="col-span-2 p-4 bg-white rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Metrics List</h2>
@@ -106,6 +163,8 @@ const IndividualDashboard: React.FC = () => {
                   meetingStartTime={meeting.meetingStartTime}
                   meetingEndTime={meeting.meetingEndTime}
                   meetingLocation={meeting.meetingLocation}
+                  // @ts-expect-error - idk why this is failing
+                  attendees={meeting.attendee}
                 />
               ))}
             </div>

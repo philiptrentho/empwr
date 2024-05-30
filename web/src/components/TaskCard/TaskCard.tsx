@@ -1,11 +1,4 @@
-interface TaskCardProps {
-  taskTitle: string;
-  taskDescription: string;
-  taskDueDate: string;
-  taskPriority: string;
-  taskStatus: string;
-}
-
+import { TaskCardProps } from '@/types/interfaces/types';
 const TaskCard: React.FC<TaskCardProps> = ({
   taskTitle,
   taskDescription,
@@ -25,9 +18,19 @@ const TaskCard: React.FC<TaskCardProps> = ({
       <div className="mt-4 flex justify-between items-center">
         <div className="flex items-center">
           <p className="text-sm text-gray-600">Due Date: {formatDate(taskDueDate)}</p>
-          <p className="text-sm text-gray-600 ml-4">Priority: {taskPriority}</p>
+          <p className="text-sm text-gray-600 ml-4">
+            Priority:{' '}
+            <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded-full">
+              {taskPriority}
+            </span>
+          </p>
         </div>
-        <p className="text-sm text-gray-600">Status: {taskStatus}</p>
+        <p className="text-sm text-gray-600">
+          Status:{' '}
+          <span className="px-2 py-1 bg-green-200 text-green-800 rounded-full">
+            {taskStatus}
+          </span>
+        </p>
       </div>
     </div>
   );

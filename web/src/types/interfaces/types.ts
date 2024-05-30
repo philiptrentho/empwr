@@ -175,3 +175,43 @@ export interface DropdownOption {
   value: string;
   label: string;
 }
+
+export interface TeammateListProps {
+  teammates: Teammate[];
+}
+
+export interface TaskCardProps {
+  taskTitle: string;
+  taskDescription: string;
+  taskDueDate: string;
+  taskPriority: string;
+  taskStatus: string;
+}
+
+export interface Meeting {
+  meetingTitle: string;
+  meetingDescription?: string;
+  meetingDate: string;
+  meetingStartTime: string;
+  meetingEndTime: string;
+  meetingLocation: string;
+}
+
+export interface MeetingAttendeeCardProps {
+  name: string;
+  avatarURL: string | null;
+}
+
+export interface UpcomingMeetingCardProps {
+  meetingTitle: string;
+  meetingDate: string;
+  meetingStartTime: string;
+  meetingEndTime: string;
+  meetingLocation: string;
+  attendees: MeetingAttendee[];
+}
+
+export interface MeetingAttendee {
+  name: string;
+  avatarURL: string | null;
+}

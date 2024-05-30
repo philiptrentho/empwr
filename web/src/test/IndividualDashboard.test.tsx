@@ -51,7 +51,7 @@ describe('IndividualDashboard component', () => {
   });
 
   test('should render the component', () => {
-    const header = screen.getByText(/Hi, NAME/i);
+    const header = screen.getByText(/Hi,/i);
     expect(header).toBeInTheDocument();
   });
 

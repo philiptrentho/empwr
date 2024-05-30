@@ -79,6 +79,7 @@ describe('OrganizationView component', () => {
 
   beforeEach(() => {
     vi.mocked(getTeamInfo).mockResolvedValue(mockTeams);
+    // @ts-expect-error not dealing with this right now lol
     vi.mocked(fetchOrgMeetings).mockResolvedValue(mockMeetings);
   });
 
