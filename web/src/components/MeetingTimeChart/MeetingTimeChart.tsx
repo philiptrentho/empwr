@@ -1,5 +1,6 @@
 import { ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { fetchOrgMeetings } from '@/components/Firebase/organizationData';
 
 import OrgViewChart from '@/components/OrgViewChart/OrgViewChart';
 
@@ -56,6 +57,17 @@ const options: ChartOptions<'bar'> = {
 };
 
 export default function MeetingTimeChart() {
+  const [teams, setTeams] = useState<OrgTeamStatsProps[]>([]);
+  useEffect(() =>  {
+    console.log('OrganizationView');
+    getTeamInfo('organizationID1').then((teams) => {
+      console.log(teams);
+      setTeams(teams);
+    }).catch((error) => {
+      console.error('Error fetching teams:', error);
+    });
+  }, []);
+
   return (
     <OrgViewChart
       heading="Meeting Time Spent per Topic"
