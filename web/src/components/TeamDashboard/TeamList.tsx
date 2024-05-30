@@ -1,12 +1,16 @@
 import React from 'react';
-
-import { Team } from '../../types/interfaces/types';
 import { useNavigate } from 'react-router-dom';
 import TeamEntry from './TeamEntry';
+import { Team } from '../../types/interfaces/types';
+
+
+
+
+
 
 interface TeamListProps {
   teams: Team[];
-  typeData : string;
+  typeData: string;
   userID: string;
   refreshTeams: () => Promise<void>;
 }
@@ -15,7 +19,8 @@ const formatLastUpdated = (timeString: string): string => {
   if (isNaN(lastUpdatedDate.getTime())) {
     throw new Error(`Invalid date format for LastUpdated: ${timeString}`);
   }
-  
+
+
   const formattedLastUpdated = lastUpdatedDate.toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -26,53 +31,39 @@ const formatLastUpdated = (timeString: string): string => {
     hour12: true
   });
 
+
   return formattedLastUpdated;
 };
-function formatLastUpdate(hours: number): string {
-  const days = Math.floor(hours / 24);
-  const remainingHours = hours % 24;
-  
-  if (days === 0 && remainingHours === 0) {
-    return 'Updated less than an hour ago';
-  } else if (days === 0) {
-    return `Updated ${remainingHours} hour${remainingHours === 1 ? '' : 's'} ago`;
-  } else if (remainingHours === 0) {
-    return `Updated ${days} day${days === 1 ? '' : 's'} ago`;
-  } else {
-    return `Updated ${days} day${days === 1 ? '' : 's'} and ${remainingHours} hour${remainingHours === 1 ? '' : 's'} ago`;
-  }
-}
 
-const TeamList: React.FC<TeamListProps> = ({ teams, typeData, userID, refreshTeams}) => {
+
+const TeamList: React.FC<TeamListProps> = ({ teams, typeData, userID, refreshTeams }) => {
   const navigate = useNavigate();
+
   return (
-    <div style={{ maxHeight: '70vh' }}>
-      <div className="flex flex-wrap w-4/5">
-        <div className="flex items-center mr-4 w-1/4">
-          <p className="font-bold">Name</p>
+    <div style={{ maxHeight: '70vh' }} className="overflow-hidden">
+      <div className="flex flex-col w-full">
+        <div className="flex w-full">
+          <div className="w-1/4 p-2 font-bold">Name</div>
+          <div className="w-1/4 p-2 font-bold">Permissions</div>
+          <div className="w-1/4 p-2 font-bold">Followers</div>
+          <div className="w-1/4 p-2 font-bold">Last Updated</div>
         </div>
-        <div className="flex items-center mr-4 w-1/4">
-          <p className="font-bold mr-2">Permissions</p>
+        <div className="flex flex-col w-full overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide">
+          {teams.length > 0 ? teams.map((team, index) => (
+            <div className="flex w-full" key={team.teamID}>
+              <div className="w-1/4 p-2">{team.name}</div>
+              <div className="w-1/4 p-2">{team.Permissions}</div>
+              <div className="w-1/4 p-2">{team.followers}</div>
+              <div className="w-1/4 p-2">{formatLastUpdated(team.LastUpdated)}</div>
+            </div>
+          )) : (
+            <p>No meetings found</p>
+          )}
         </div>
-        <div className="flex items-center mr-4 w-1/4">
-          <p className="font-bold mr-2">Followers</p>
-        </div>
-        <div className="flex items-center mr-4 w-1/6">
-          <p className="font-bold mr-2">Last Updated</p>
-        </div>
-      </div>
-      <div className="max-h-full overflow-y-auto border border-gray-300 bg-gray-100 p-4 rounded scrollbar-hide mr-4 hide-scrollbar">
-        {teams.length > 0 ? (
-          teams.map((team, index) => (
-            <TeamEntry index={index} key={team.teamID} team={team} typeData={typeData} userID={userID} refreshTeams={refreshTeams} />
-            
-          ))
-        ) : (
-          <p>No meetings found</p>
-        )}
       </div>
     </div>
   );
 };
+
 
 export default TeamList;

@@ -1,44 +1,26 @@
-import './TeamView.css';
-
-import React, { useState, useRef, useEffect } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import TeamList from '@/components/TeamDashboard/TeamList';
 import TeamUpdate from '@/components/TeamDashboard/TeamUpdate';
-import { LucideArrowRightToLine, LucideArrowLeftFromLine } from 'lucide-react';
-import {
-  fetchAllUpdatedTeams
-} from '../components/Firebase/firebase';
-import { Team, StrNumArr } from '../types/interfaces/types';
+import { LucideArrowRightToLine, LucideArrowLeftFromLine, LucideUserPlus } from 'lucide-react';
+import { fetchAllUpdatedTeams } from '../components/Firebase/firebase';
+import { Team } from '../types/interfaces/types';
 import CreateTeamModal from './CreateTeamModal';
+
 interface DropdownOption {
   value: string;
   label: string;
 }
 
-interface TabProps {
-  name: string;
-}
-
 const sortByLastUpdated = (teams: Team[]) => {
   return teams.sort((a, b) => {
-    console.log('Date A:', a.LastUpdated);
-    console.log('Date B:', b.LastUpdated);
     const dateA = new Date(a.LastUpdated);
     const dateB = new Date(b.LastUpdated);
-
-    if (dateA > dateB) return -1;
-    if (dateA < dateB) return 1;
-    return 0;
+    return dateB.getTime() - dateA.getTime();
   });
 };
 
-
 const sortByName = (teams: Team[]) => {
-  return teams.sort((a, b) => {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
-  });
+  return teams.sort((a, b) => a.name.localeCompare(b.name));
 };
 
 const sortByFollowers = (teams: Team[]) => {
@@ -47,10 +29,11 @@ const sortByFollowers = (teams: Team[]) => {
 
 export default function TeamView() {
   const options: DropdownOption[] = [
-    { value: 'option1', label: 'Lastest Update' },
-    { value: 'option2', label: 'Lexicographic Order' },
+    { value: 'option1', label: 'Latest Update' },
+    { value: 'option2', label: 'A-Z' },
     { value: 'option3', label: 'Most Followed' }
   ];
+
   const [submitTrigger, setSubmitTrigger] = useState<boolean>(false);
   const [teamsData, setTeamsData] = useState<Team[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -60,7 +43,8 @@ export default function TeamView() {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>('Following');
-  const userID = "userID6"
+  const userID = "userID6";
+
   const handleOptionClick = (option: DropdownOption) => {
     setSelectedOption(option);
     setIsOpen(false);
@@ -73,6 +57,7 @@ export default function TeamView() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   const fetchData = async () => {
     try {
       const fetchedTeamsData = await fetchAllUpdatedTeams();
@@ -83,18 +68,14 @@ export default function TeamView() {
   };
 
   useEffect(() => {
-  
     fetchData();
   }, [submitTrigger]);
-
- 
 
   useEffect(() => {
     const filteredTeams = teamsData.filter(team =>
       team.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  
-    // Applying the sort based on the selected option
+
     let sortedTeams = [...filteredTeams];
     if (selectedOption?.value === 'option1') {
       sortedTeams = sortByLastUpdated(sortedTeams);
@@ -103,73 +84,78 @@ export default function TeamView() {
     } else if (selectedOption?.value === 'option3') {
       sortedTeams = sortByFollowers(sortedTeams);
     }
-  
-    // Now apply tab-specific filtering after sorting
+
     switch (activeTab) {
       case 'Following':
-      sortedTeams = sortedTeams.filter(team => team.followers.includes(userID));
-      break;
+        sortedTeams = sortedTeams.filter(team => team.followers.includes(userID));
+        break;
       case 'Explore':
-      sortedTeams = sortedTeams.filter(team => !team.followers.includes(userID));
-      break;
+        sortedTeams = sortedTeams.filter(team => !team.followers.includes(userID));
+        break;
       case 'Invitations':
-      sortedTeams = sortedTeams.filter(team => team.invitations.includes(userID));
-      break;
+        sortedTeams = sortedTeams.filter(team => team.invitations.includes(userID));
+        break;
     }
-  
+
     setFilteredAndSortedTeams(sortedTeams);
   }, [teamsData, searchQuery, selectedOption, activeTab]);
-  
 
   return (
     <div className="flex flex-row">
       <div className="flex-grow">
         <div className="p-5 space-y-4">
-          <h1 className="font-sans font-bold text-3xl mb-20">Teams</h1>
-          
-          <div className='tab-horizontal'>
-            <div className={`tab-container ${activeTab === 'Following' ? 'active' : ''}`} onClick={() => setActiveTab('Following')}>
-              <p style={{fontSize: '19px'}}>Following</p>
-              <div style={{ height: '3px', backgroundColor: activeTab === 'Following' ? '#271463' : 'gray' }}></div>
-            </div>
-            <div className={`tab-container ${activeTab === 'Explore' ? 'active' : ''}`} onClick={() => setActiveTab('Explore')}>
-              <p style={{fontSize: '19px'}}>Explore</p>
-              <div style={{ height: '3px', backgroundColor: activeTab === 'Explore' ? '#271463' : 'gray' }}></div>
-            </div>
-            <div className={`tab-container ${activeTab === 'Invitations' ? 'active' : ''}`} onClick={() => setActiveTab('Invitations')}>
-              <p style={{fontSize: '19px'}}>Invitations</p>
-              <div style={{ height: '3px', backgroundColor: activeTab === 'Invitations' ? '#271463' : 'gray'}}></div>
+          <h1 className="font-sans font-bold text-3xl mb-4">Teams</h1>
+
+          <div className="flex flex-col w-full mb-24">
+            <div className="flex">
+              <div
+                className={`tab-container ${activeTab === 'Following' ? 'active' : ''} flex-grow`}
+                onClick={() => setActiveTab('Following')}
+              >
+                <p className="text-lg text-center">Following</p>
+                <div className={`h-0.5 ${activeTab === 'Following' ? 'bg-[#271463]' : 'bg-gray-400'}`} />
+              </div>
+              <div
+                className={`tab-container ${activeTab === 'Explore' ? 'active' : ''} flex-grow`}
+                onClick={() => setActiveTab('Explore')}
+              >
+                <p className="text-lg text-center">Explore</p>
+                <div className={`h-0.5 ${activeTab === 'Explore' ? 'bg-[#271463]' : 'bg-gray-400'}`} />
+              </div>
+              <div
+                className={`tab-container ${activeTab === 'Invitations' ? 'active' : ''} flex-grow`}
+                onClick={() => setActiveTab('Invitations')}
+              >
+                <p className="text-lg text-center">Invitations</p>
+                <div className={`h-0.5 ${activeTab === 'Invitations' ? 'bg-[#271463]' : 'bg-gray-400'}`} />
+              </div>
             </div>
           </div>
-          
-          <div className="flex flex-row justify-between">
+
+          <div className="flex flex-row justify-between items-center mb-24">
             <input
               type="text"
               placeholder="Search Teams..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border border-gray-300 rounded px-3 py-2 mb-4 w-2/5"
+              className="border border-gray-300 rounded px-3 py-2 w-1/2"
             />
-            
             <button
-              className="create-team-btn p-2 bg-blue-500 text-white rounded"
+              className="text-[#271463] p-2"
               onClick={handleCreateTeamClick}
-
             >
-              Create New Team
+              <LucideUserPlus size={24} />
             </button>
+          </div>
 
-            {/* Code below is same as filtering in team update. Should make separate component
-            for filtering and search. I can do later if needed.
-            */}
-            <div className="dropdown">
-              <div className="flex items-center">
-                <button className="dropdown-toggle" onClick={() => setIsOpen(!isOpen)}>
-                  {selectedOption ? selectedOption.label : 'Sort By'}
-                </button>
+          <div className="flex flex-row justify-between items-center mb-24">
+            <div className="text-md font-sans">{teamsData.length} Teams</div>
+
+            <div className="relative">
+              <button className="dropdown-toggle flex items-center" onClick={() => setIsOpen(!isOpen)}>
+                {selectedOption ? selectedOption.label : 'Sort By'}
                 <svg
-                  className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'
-                    }`}
+                  className={`ml-1 -mr-1 h-4 w-4 transition-transform duration-200 transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -179,14 +165,14 @@ export default function TeamView() {
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
+              </button>
               {isOpen && (
-                <div className="absolute mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 border border-purple-700">
+                <div className="absolute mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 border border-gray-700">
                   <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                     {options.map((option, index) => (
                       <div
                         key={index}
-                        className="dropdown-item px-4"
+                        className="dropdown-item px-4 py-1 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => handleOptionClick(option)}
                       >
                         {option.label}
@@ -196,13 +182,10 @@ export default function TeamView() {
                 </div>
               )}
             </div>
-            {/* Filtering ends here */}
           </div>
-          <div className="text-md font-sans">{teamsData.length} Teams</div>
+
           <div className="flex-grow">
-            <div>
-              <TeamList teams={filteredAndSortedTeams} typeData={activeTab} userID={userID} refreshTeams={fetchData}/>
-            </div>
+            <TeamList teams={filteredAndSortedTeams} typeData={activeTab} userID={userID} refreshTeams={fetchData} />
           </div>
         </div>
       </div>
@@ -220,10 +203,9 @@ export default function TeamView() {
           </div>
         </div>
       )}
-      <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal}  setSubmitTrigger = {setSubmitTrigger} />
-
+      <CreateTeamModal isOpen={isModalOpen} onClose={handleCloseModal} setSubmitTrigger={setSubmitTrigger} />
     </div>
-
   );
 }
+
 export { sortByLastUpdated, sortByName, sortByFollowers };
