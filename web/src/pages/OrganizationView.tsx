@@ -1,5 +1,5 @@
 import Decisions from '@/components/Decisions/Decisions';
-import { getTeamInfo } from '@/components/Firebase/organizationData';
+import { getTeamInfo, fetchOrgMeetings } from '@/components/Firebase/organizationData';
 import MaturityScore from '@/components/MaturityScore/MaturityScore';
 import MeetingTimeChart from '@/components/MeetingTimeChart/MeetingTimeChart';
 import OrgTeamStats from '@/components/OrgTeamStats/OrgTeamStats';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 export default function OrganizationView() {
   const [teams, setTeams] = useState<OrgTeamStatsProps[]>([]);
+  const [meetings, setMeetings] = useState<Meeting[]>([]);
   useEffect(() =>  {
     console.log('OrganizationView');
     getTeamInfo('organizationID1').then((teams) => {
@@ -15,6 +16,12 @@ export default function OrganizationView() {
       setTeams(teams);
     }).catch((error) => {
       console.error('Error fetching teams:', error);
+    });
+    fetchOrgMeetings('organizationID1').then((meetings) => {
+      console.log(meetings, 'here');
+      setMeetings(meetings);
+    }).catch((error) => {
+      console.error('Error fetching meetings:', error);
     });
   }, []);
   return (
